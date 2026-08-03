@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 1080px;
+            height: 1350px;
+            background-color: #0f172a;
+        }
+        
+        .brand-gradient {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .slide-content {
+            min-height: 1350px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-content flex flex-col bg-[#0f172a] text-white p-12">
+        <!-- Header -->
+        <header class="flex items-center justify-between mb-16">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 brand-gradient rounded-xl flex items-center justify-center">
+                    <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                    </svg>
+                </div>
+                <span class="text-2xl font-bold tracking-tight">SafeSponsor AI</span>
+            </div>
+            <div class="bg-[#10b981]/20 text-[#10b981] px-5 py-2 rounded-full text-sm font-semibold uppercase tracking-wider">
+                Brand Safety Teardown
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col justify-center">
+            <div class="mb-8">
+                <span class="text-[#10b981] font-semibold text-lg uppercase tracking-wider">Slide {{SLIDE_NUM}} of {{TOTAL_SLIDES}}</span>
+            </div>
+            
+            <h1 class="text-6xl font-extrabold leading-tight mb-8 text-white">
+                {{TITLE}}
+            </h1>
+            
+            <p class="text-2xl text-gray-300 leading-relaxed max-w-[900px]">
+                {{BODY}}
+            </p>
+        </main>
+
+        <!-- Footer -->
+        <footer class="flex items-center justify-between pt-8 border-t border-gray-700/50">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 brand-gradient rounded-lg flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                    </svg>
+                </div>
+                <span class="text-gray-400 text-sm">Powered by SafeSponsor AI</span>
+            </div>
+            <span class="text-[#10b981] font-medium">safe-sponsor-ai.vercel.app</span>
+        </footer>
+    </div>
+</body>
+</html>
