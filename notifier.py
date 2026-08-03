@@ -3,7 +3,7 @@ import requests
 from dotenv import load_dotenv
 
 
-def send_to_telegram(pdf_path: str, twitter_thread: list, instagram_caption: str) -> bool:
+def send_to_telegram(pdf_path: str, twitter_thread: list, instagram_caption: str, reel_path: str = None) -> bool:
     """
     Send content to Telegram chat via Bot API.
     
@@ -11,6 +11,7 @@ def send_to_telegram(pdf_path: str, twitter_thread: list, instagram_caption: str
         pdf_path: Path to the LinkedIn carousel PDF
         twitter_thread: List of tweet strings
         instagram_caption: Instagram caption text
+        reel_path: Path to the video reel (optional)
         
     Returns:
         bool: True if all messages sent successfully, False otherwise
@@ -47,10 +48,27 @@ def send_to_telegram(pdf_path: str, twitter_thread: list, instagram_caption: str
         print(f"  Telegram: PDF send error - {e}")
         success = False
     
+    # Send Video Reel
+    if reel_path and os.path.exists(reel_path):
+        try:
+            with open(reel_path, "rb") as video_file:
+                files = {"video": ("reel.mp4", video_file, "video/mp4")}
+                data = {"chat_id": chat_id, "caption": "Video Reel"}
+                response = requests.post(f"{api_base}/sendVideo", files=files, data=data)
+                
+                if response.status_code == 200:
+                    print("  Telegram: Video reel sent successfully")
+                else:
+                    print(f"  Telegram: Video reel send failed - {response.text}")
+                    success = False
+        except Exception as e:
+            print(f"  Telegram: Video reel send error - {e}")
+            success = False
+    
     # Send Twitter thread
     try:
         thread_text = format_twitter_thread(twitter_thread)
-        data = {"chat_id": chat_id, "text": thread_text, "parse_mode": "Markdown"}
+        data = {"chat_id": chat_id, "text": thread_text}
         response = requests.post(f"{api_base}/sendMessage", data=data)
         
         if response.status_code == 200:

@@ -24,6 +24,12 @@ Analyze the following YouTube video transcript and provide:
    - twitter_thread: Array of 4 tweet strings (each under 280 chars)
    - instagram_caption: Engaging caption with emojis and hashtags
 
+3. VIDEO REEL SCRIPT (for a 30-second vertical video):
+   - reel_script: Object with:
+     * hook: Attention-grabbing opening line (5-7 seconds)
+     * body: Main message explaining the analysis (15-20 seconds)
+     * cta: Call to action directing to safe-sponsor-ai.vercel.app (5-7 seconds)
+
 TRANSCRIPT:
 {transcript}
 
@@ -41,7 +47,12 @@ Return ONLY valid JSON in this exact format (no markdown, no extra text):
     {{"slide": 5, "title": "...", "body": "..."}}
   ],
   "twitter_thread": ["...", "...", "...", "..."],
-  "instagram_caption": "..."
+  "instagram_caption": "...",
+  "reel_script": {{
+    "hook": "Stop sponsoring YouTube creators before running this 10-second check.",
+    "body": "We ran SafeSponsor AI on a recent viral video. The risk score was 18 out of 100, but our transcript analysis flagged 2 hidden copyright keywords.",
+    "cta": "Check your channel brand safety score at safe-sponsor-ai.vercel.app"
+  }}
 }}"""
     
     response = client.models.generate_content(

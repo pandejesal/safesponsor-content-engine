@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            width: 1080px;
+            height: 1920px;
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+            overflow: hidden;
+        }
+        
+        .brand-gradient {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .glow {
+            box-shadow: 0 0 60px rgba(16, 185, 129, 0.3);
+        }
+        
+        .text-glow {
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+        }
+        
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.02); }
+        }
+        
+        .slide-up {
+            animation: slideUp 0.8s ease-out forwards;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="flex flex-col text-white">
+    <!-- Header -->
+    <header class="flex items-center justify-between px-12 pt-16 pb-8">
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-14 brand-gradient rounded-2xl flex items-center justify-center glow">
+                <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+            </div>
+            <span class="text-3xl font-bold tracking-tight">SafeSponsor AI</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col justify-center px-12">
+        <!-- Risk Score Section -->
+        <div class="mb-12 slide-up">
+            <div class="bg-[#1e293b] rounded-3xl p-10 border border-gray-700/50 glow">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="text-gray-400 text-lg uppercase tracking-wider">Brand Safety Score</span>
+                    <span class="text-#10b981 text-lg font-semibold">LOW</span>
+                </div>
+                <div class="flex items-end gap-4">
+                    <span class="text-9xl font-black text-glow" style="color: #10b981;">5</span>
+                    <span class="text-4xl text-gray-400 mb-6">/100</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Flagged Keywords -->
+        <div class="mb-12 slide-up" style="animation-delay: 0.2s;">
+            <div class="bg-[#1e293b] rounded-3xl p-8 border border-gray-700/50">
+                <span class="text-gray-400 text-lg uppercase tracking-wider block mb-4">Flagged Keywords</span>
+                <div class="flex flex-wrap gap-3" id="keywords-container">
+                    <span class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-lg">lie</span><span class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-lg">hurt</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Script Text Overlay -->
+        <div class="flex-1 flex flex-col justify-center">
+            <div class="bg-[#0f172a]/80 rounded-3xl p-10 border border-[#10b981]/30">
+                <p class="text-4xl font-semibold leading-relaxed text-center" id="script-text">
+                    Check your partner's brand safety score at safe-sponsor-ai.vercel.app
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="px-12 pb-16 pt-8">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 brand-gradient rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                    </svg>
+                </div>
+                <span class="text-gray-400">safe-sponsor-ai.vercel.app</span>
+            </div>
+            <div class="bg-[#10b981] px-6 py-3 rounded-full pulse">
+                <span class="font-bold text-white">SCAN NOW</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
