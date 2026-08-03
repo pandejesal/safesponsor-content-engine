@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            width: 1080px;
+            height: 1920px;
+            background: linear-gradient(180deg, #030712 0%, #0a0f1c 30%, #0f172a 100%);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Ambient Glow Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #10b981 0%, transparent 70%);
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+        
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #059669 0%, transparent 70%);
+            bottom: 200px;
+            left: -80px;
+            animation-delay: 2s;
+        }
+        
+        .orb-3 {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, #10b981 0%, transparent 70%);
+            bottom: 400px;
+            right: -50px;
+            animation-delay: 4s;
+            opacity: 0.25;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+        
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 32px;
+            box-shadow: 
+                0 0 40px rgba(16, 185, 129, 0.15),
+                0 25px 50px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        
+        .glass-card-inner {
+            background: rgba(3, 7, 18, 0.7);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 24px;
+        }
+        
+        /* Score Dial */
+        .score-dial {
+            width: 280px;
+            height: 280px;
+            position: relative;
+        }
+        
+        .score-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 180deg,
+                #10b981 0deg,
+                #059669 {{SCORE_DEGREES}}deg,
+                rgba(30, 41, 59, 0.3) {{SCORE_DEGREES}}deg,
+                rgba(30, 41, 59, 0.3) 360deg
+            );
+            animation: rotate 2s ease-out forwards;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(-90deg); }
+            to { transform: rotate(-90deg); }
+        }
+        
+        .score-ring::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            background: #030712;
+            border-radius: 50%;
+        }
+        
+        .score-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .score-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 72px;
+            font-weight: 700;
+            color: #10b981;
+            line-height: 1;
+            text-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { text-shadow: 0 0 30px rgba(16, 185, 129, 0.5); }
+            50% { text-shadow: 0 0 50px rgba(16, 185, 129, 0.8); }
+        }
+        
+        .score-label {
+            font-size: 16px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 8px;
+        }
+        
+        .score-status {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            color: #10b981;
+            margin-top: 12px;
+            padding: 6px 16px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            display: inline-block;
+        }
+        
+        /* Keyword Pills */
+        .keyword-pill {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            animation: fadeInUp 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .keyword-pill::before {
+            content: '#';
+            color: #ef4444;
+        }
+        
+        .keyword-pill:nth-child(1) { animation-delay: 0.2s; }
+        .keyword-pill:nth-child(2) { animation-delay: 0.4s; }
+        .keyword-pill:nth-child(3) { animation-delay: 0.6s; }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Kinetic Subtitles */
+        .subtitle-container {
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .subtitle-text {
+            font-size: 42px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.4;
+            text-align: center;
+            max-width: 950px;
+        }
+        
+        .subtitle-word {
+            display: inline-block;
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.15s ease-out;
+            margin: 0 6px;
+        }
+        
+        .subtitle-word.active {
+            color: #fbbf24;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            transform: scale(1.15);
+        }
+        
+        .subtitle-word.spoken {
+            color: #ffffff;
+        }
+        
+        /* Brand Badge */
+        .brand-badge {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            padding: 8px 20px;
+            border-radius: 100px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+            animation: badge-pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes badge-pulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 0 50px rgba(16, 185, 129, 0.6); }
+        }
+        
+        /* Scan Line Effect */
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #10b981, transparent);
+            animation: scan 3s linear infinite;
+            opacity: 0.6;
+        }
+        
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        
+        /* Grid Pattern */
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+        
+        /* Title Styling */
+        .video-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e2e8f0;
+            line-height: 1.3;
+        }
+        
+        .video-title .highlight {
+            color: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <!-- Ambient Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    
+    <!-- Grid Pattern -->
+    <div class="grid-pattern"></div>
+    
+    <!-- Scan Line Effect -->
+    <div class="scan-line"></div>
+    
+    <!-- Main Content -->
+    <div class="relative z-10 flex flex-col h-full px-12 py-16">
+        <!-- Header -->
+        <header class="flex items-center justify-between mb-12">
+            <div class="brand-badge">
+                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <span class="text-white font-bold text-lg">SafeSponsor AI</span>
+            </div>
+            <div class="px-5 py-2 rounded-full border border-emerald-500/30 bg-emerald-500/10">
+                <span class="text-emerald-400 text-sm font-semibold uppercase tracking-widest">Brand Safety</span>
+            </div>
+        </header>
+        
+        <!-- Glass Card -->
+        <div class="glass-card p-2 mb-12">
+            <div class="glass-card-inner p-8">
+                <!-- Video Title -->
+                <div class="mb-8">
+                    <span class="text-emerald-400 text-sm font-semibold uppercase tracking-widest block mb-3">Analyzing</span>
+                    <h2 class="video-title">{{VIDEO_TITLE}}</h2>
+                </div>
+                
+                <!-- Score Dial -->
+                <div class="flex items-center justify-center mb-8">
+                    <div class="score-dial">
+                        <div class="score-ring"></div>
+                        <div class="score-value">
+                            <div class="score-number">{{RISK_SCORE}}</div>
+                            <div class="score-label">Risk Score</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mb-8">
+                    <span class="score-status">{{RISK_STATUS}}</span>
+                </div>
+                
+                <!-- Flagged Keywords -->
+                <div>
+                    <span class="text-slate-400 text-sm uppercase tracking-widest block mb-4">Flagged Keywords</span>
+                    <div class="flex flex-wrap gap-3">
+                        {{KEYWORDS_HTML}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Spacer -->
+        <div class="flex-1"></div>
+        
+        <!-- Kinetic Subtitles -->
+        <div class="subtitle-container mb-8">
+            <div class="subtitle-text" id="kinetic-subtitles">
+                {{SUBTITLE_WORDS}}
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="flex items-center justify-between">
+            <span class="text-slate-500 text-sm">safe-sponsor-ai.vercel.app</span>
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                <span class="text-slate-400 text-sm font-medium">LIVE SCAN</span>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

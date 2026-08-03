@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from fetcher import get_transcript_from_url
 from analyzer import analyze_transcript
 from generator import generate_carousel_assets
-from reel_generator import generate_reel
+from reel_generator import generate_ensotrade_reel
 from notifier import send_to_telegram
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -32,14 +32,14 @@ def main():
     print("=" * 60)
     
     # Step 1: Fetch Transcript
-    print("\n[Step 1/6] Fetching YouTube transcript...")
+    print("\n[Step 1/5] Fetching YouTube transcript...")
     print(f"  URL: {url}")
     transcript_data = get_transcript_from_url(url)
     print(f"  Video ID: {transcript_data['video_id']}")
     print(f"  Transcript length: {len(transcript_data['transcript'])} characters")
     
     # Step 2: Analyze with Gemini AI
-    print("\n[Step 2/6] Analyzing transcript with SafeSponsor AI...")
+    print("\n[Step 2/5] Analyzing transcript with SafeSponsor AI...")
     analysis_result = analyze_transcript(transcript_data['transcript'], api_key)
     
     # Save analysis result
@@ -48,16 +48,16 @@ def main():
     print("  Analysis saved to analysis_result.json")
     
     # Step 3: Generate Visual Assets
-    print("\n[Step 3/6] Generating LinkedIn carousel assets...")
+    print("\n[Step 3/5] Generating LinkedIn carousel assets...")
     asset_paths = generate_carousel_assets(analysis_result)
     
-    # Step 4: Generate Video Reel
-    print("\n[Step 4/6] Generating video reel...")
+    # Step 4: Generate EnsoTrade Style Reel
+    print("\n[Step 4/5] Generating EnsoTrade style reel...")
     reel_script = analysis_result.get("reel_script", {})
-    reel_paths = generate_reel(reel_script, analysis_result)
+    reel_paths = generate_ensotrade_reel(reel_script, analysis_result)
     
     # Step 5: Send to Telegram
-    print("\n[Step 5/6] Sending to Telegram...")
+    print("\n[Step 5/5] Sending to Telegram...")
     telegram_success = send_to_telegram(
         asset_paths['pdf'],
         analysis_result['twitter_thread'],
@@ -68,8 +68,7 @@ def main():
     if telegram_success:
         print("\n🚀 Content successfully dispatched to Telegram!")
     
-    # Step 6: Print Social Media Content
-    print("\n[Step 6/6] Social Media Content Ready!")
+    # Print Social Media Content
     print("\n" + "=" * 60)
     print("RISK ASSESSMENT")
     print("=" * 60)
@@ -99,7 +98,7 @@ def main():
     for slide_path in asset_paths['slides']:
         print(f"    - {slide_path}")
     print(f"  PDF: {asset_paths['pdf']}")
-    print(f"  Reel: {reel_paths['reel']}")
+    print(f"  EnsoTrade Reel: {reel_paths['reel']}")
     
     print("\n" + "=" * 60)
     print("Pipeline complete!")

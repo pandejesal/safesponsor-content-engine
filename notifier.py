@@ -11,7 +11,7 @@ def send_to_telegram(pdf_path: str, twitter_thread: list, instagram_caption: str
         pdf_path: Path to the LinkedIn carousel PDF
         twitter_thread: List of tweet strings
         instagram_caption: Instagram caption text
-        reel_path: Path to the video reel (optional)
+        reel_path: Path to the EnsoTrade-style video reel (optional)
         
     Returns:
         bool: True if all messages sent successfully, False otherwise
@@ -48,21 +48,21 @@ def send_to_telegram(pdf_path: str, twitter_thread: list, instagram_caption: str
         print(f"  Telegram: PDF send error - {e}")
         success = False
     
-    # Send Video Reel
+    # Send EnsoTrade Video Reel (HD)
     if reel_path and os.path.exists(reel_path):
         try:
             with open(reel_path, "rb") as video_file:
-                files = {"video": ("reel.mp4", video_file, "video/mp4")}
-                data = {"chat_id": chat_id, "caption": "Video Reel"}
+                files = {"video": ("ensotrade_reel.mp4", video_file, "video/mp4")}
+                data = {"chat_id": chat_id, "caption": "EnsoTrade Style Reel"}
                 response = requests.post(f"{api_base}/sendVideo", files=files, data=data)
                 
                 if response.status_code == 200:
-                    print("  Telegram: Video reel sent successfully")
+                    print("  Telegram: EnsoTrade reel sent successfully")
                 else:
-                    print(f"  Telegram: Video reel send failed - {response.text}")
+                    print(f"  Telegram: EnsoTrade reel send failed - {response.text}")
                     success = False
         except Exception as e:
-            print(f"  Telegram: Video reel send error - {e}")
+            print(f"  Telegram: EnsoTrade reel send error - {e}")
             success = False
     
     # Send Twitter thread
