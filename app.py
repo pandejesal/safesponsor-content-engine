@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from fetcher import get_transcript_from_url
 from analyzer import analyze_transcript
 from generator import generate_carousel_assets
+from notifier import send_to_telegram
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
@@ -46,11 +47,22 @@ def main():
     print("  Analysis saved to analysis_result.json")
     
     # Step 3: Generate Visual Assets
-    print("\n[Step 3/4] Generating LinkedIn carousel assets...")
+    print("\n[Step 3/5] Generating LinkedIn carousel assets...")
     asset_paths = generate_carousel_assets(analysis_result)
     
-    # Step 4: Print Social Media Content
-    print("\n[Step 4/4] Social Media Content Ready!")
+    # Step 4: Send to Telegram
+    print("\n[Step 4/5] Sending to Telegram...")
+    telegram_success = send_to_telegram(
+        asset_paths['pdf'],
+        analysis_result['twitter_thread'],
+        analysis_result['instagram_caption']
+    )
+    
+    if telegram_success:
+        print("\n🚀 Content successfully dispatched to Telegram!")
+    
+    # Step 5: Print Social Media Content
+    print("\n[Step 5/5] Social Media Content Ready!")
     print("\n" + "=" * 60)
     print("RISK ASSESSMENT")
     print("=" * 60)
