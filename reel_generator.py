@@ -109,7 +109,7 @@ def generate_ensotrade_reel(reel_script_data: dict, analysis_data: dict) -> dict
     
     full_script = f"{hook} {body} {cta}"
     
-    voiceover_path = str(output_dir / "ensotrade_voiceover.mp3")
+    voiceover_path = str(output_dir / "safesponsor_voiceover.mp3")
     print("  Generating AI voiceover with timestamps...")
     word_timestamps = asyncio.run(
         generate_voiceover_with_timestamps(full_script, voiceover_path)
@@ -217,7 +217,7 @@ def generate_ensotrade_reel(reel_script_data: dict, analysis_data: dict) -> dict
     final_video = concatenate_videoclips(video_clips, method="compose")
     final_video = final_video.with_audio(audio_clip)
     
-    reel_path = str(output_dir / "ensotrade_reel.mp4")
+    reel_path = str(output_dir / "safesponsor_reel.mp4")
     final_video.write_videofile(
         reel_path,
         fps=30,

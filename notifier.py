@@ -52,8 +52,8 @@ def send_to_telegram(pdf_path: str, twitter_thread: list, instagram_caption: str
     if reel_path and os.path.exists(reel_path):
         try:
             with open(reel_path, "rb") as video_file:
-                files = {"video": ("ensotrade_reel.mp4", video_file, "video/mp4")}
-                data = {"chat_id": chat_id, "caption": "EnsoTrade Style Reel"}
+                files = {"video": ("safesponsor_reel.mp4", video_file, "video/mp4")}
+                data = {"chat_id": chat_id, "caption": "SafeSponsor AI Reel"}
                 response = requests.post(f"{api_base}/sendVideo", files=files, data=data)
                 
                 if response.status_code == 200:
