@@ -83,6 +83,16 @@
             letter-spacing: 3px;
         }
         
+        .logo-icon {
+            margin-bottom: 32px;
+            opacity: 0;
+            transform: scale(0) rotate(-180deg);
+        }
+        
+        .logo-icon.animate {
+            animation: spinIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
         /* === SCENE 2: SCORE === */
         #scene-2 {
             background: #0a0a0a;
@@ -218,20 +228,13 @@
             background: #0a0a0a;
         }
         
-        .cta-shield {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, #22d3ee, #06b6d4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .cta-logo {
             margin-bottom: 32px;
             opacity: 0;
             transform: scale(0) rotate(-180deg);
         }
         
-        .cta-shield.animate {
+        .cta-logo.animate {
             animation: spinIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         
@@ -331,13 +334,25 @@
 <body>
     <!-- Scene 1: Hook -->
     <div id="scene-1" class="scene active">
+        <div class="logo-icon">
+            <svg viewBox="0 0 100 100" width="100" height="100">
+                <defs>
+                    <clipPath id="hex">
+                        <path d="M50 8 L85 28 L85 72 L50 92 L15 72 L15 28 Z"/>
+                    </clipPath>
+                </defs>
+                <rect width="100" height="100" rx="20" fill="#09090b"/>
+                <g clip-path="url(#hex)">
+                    <circle cx="40" cy="50" r="32" fill="none" stroke="#06b6d4" stroke-width="3" opacity="0.9"/>
+                    <circle cx="60" cy="50" r="32" fill="none" stroke="#f97316" stroke-width="3" opacity="0.9"/>
+                </g>
+                <path d="M50 8 L85 28 L85 72 L50 92 L15 72 L15 28 Z" fill="none" stroke="#fafafa" stroke-width="3" stroke-linejoin="round"/>
+                <text x="50" y="60" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="38" font-weight="700" fill="#fafafa">S</text>
+            </svg>
+        </div>
         <div class="hook-line">BRAND</div>
         <div class="hook-line">SAFETY</div>
         <div class="hook-badge">
-            <svg width="20" height="20" fill="none" stroke="#22d3ee" stroke-width="2.5" viewBox="0 0 24 24">
-                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
-                <path d="m9 12 2 2 4-4"/>
-            </svg>
             <span class="hook-badge-text">AUDIT REPORT</span>
         </div>
     </div>
@@ -393,10 +408,20 @@
     
     <!-- Scene 4: CTA -->
     <div id="scene-4" class="scene">
-        <div class="cta-shield">
-            <svg width="40" height="40" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24">
-                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
-                <path d="m9 12 2 2 4-4"/>
+        <div class="cta-logo">
+            <svg viewBox="0 0 100 100" width="80" height="80">
+                <defs>
+                    <clipPath id="hex2">
+                        <path d="M50 8 L85 28 L85 72 L50 92 L15 72 L15 28 Z"/>
+                    </clipPath>
+                </defs>
+                <rect width="100" height="100" rx="20" fill="#09090b"/>
+                <g clip-path="url(#hex2)">
+                    <circle cx="40" cy="50" r="32" fill="none" stroke="#06b6d4" stroke-width="3" opacity="0.9"/>
+                    <circle cx="60" cy="50" r="32" fill="none" stroke="#f97316" stroke-width="3" opacity="0.9"/>
+                </g>
+                <path d="M50 8 L85 28 L85 72 L50 92 L15 72 L15 28 Z" fill="none" stroke="#fafafa" stroke-width="3" stroke-linejoin="round"/>
+                <text x="50" y="60" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="38" font-weight="700" fill="#fafafa">S</text>
             </svg>
         </div>
         <div class="cta-title">RUN A FREE<br><span>CREATOR AUDIT</span></div>
@@ -421,7 +446,7 @@
             scene.classList.add('active');
             
             requestAnimationFrame(() => {
-                scene.querySelectorAll('.hook-line, .hook-badge, .score-label, .score-number, .score-bar, .stat-row, .cta-shield, .cta-title, .cta-button, .cta-url').forEach(el => {
+                scene.querySelectorAll('.logo-icon, .hook-line, .hook-badge, .score-label, .score-number, .score-bar, .stat-row, .cta-logo, .cta-title, .cta-button, .cta-url').forEach(el => {
                     el.classList.add('animate');
                 });
                 
