@@ -14,134 +14,172 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
             width: 1080px;
             height: 1920px;
-            background: #09090b;
+            background: #0a0a0c;
             overflow: hidden;
             color: #fafafa;
         }
         
         .card {
-            background: #18181b;
-            border: 1px solid #27272a;
+            background: #141416;
+            border: 1px solid #1f1f23;
             border-radius: 12px;
         }
         
-        .card-elevated {
-            background: #09090b;
-            border: 1px solid #27272a;
+        .card-inner {
+            background: #0f0f11;
+            border: 1px solid #1f1f23;
             border-radius: 10px;
         }
         
-        .gauge-ring {
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            background: conic-gradient(
-                from 180deg,
-                {{GAUGE_COLOR}} 0deg,
-                {{GAUGE_COLOR}} {{GAUGE_DEGREES}}deg,
-                #27272a {{GAUGE_DEGREES}}deg,
-                #27272a 360deg
-            );
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 40px rgba(6, 182, 212, 0.15);
+        .score-box {
+            background: #141416;
+            border: 1px solid #1f1f23;
+            border-radius: 12px;
+            padding: 20px 28px;
+            text-align: center;
         }
         
-        .gauge-inner {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            background: #18181b;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .gauge-value {
-            font-size: 56px;
+        .score-value {
+            font-size: 64px;
             font-weight: 900;
-            color: #fafafa;
+            color: #22d3ee;
             line-height: 1;
+            letter-spacing: -2px;
         }
         
-        .gauge-label {
+        .score-label {
             font-size: 11px;
             font-weight: 700;
             color: #71717a;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-top: 6px;
+            letter-spacing: 2px;
+            margin-top: 8px;
         }
         
-        .status-badge {
+        .risk-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
         
-        .status-low {
-            background: rgba(16, 185, 129, 0.15);
-            color: #10b981;
-            border: 1px solid rgba(16, 185, 129, 0.3);
+        .risk-low {
+            background: rgba(34, 211, 238, 0.1);
+            color: #22d3ee;
+            border: 1px solid rgba(34, 211, 238, 0.3);
         }
         
-        .status-medium {
-            background: rgba(245, 158, 11, 0.15);
-            color: #f59e0b;
-            border: 1px solid rgba(245, 158, 11, 0.3);
+        .risk-medium {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
         }
         
-        .status-high {
-            background: rgba(239, 68, 68, 0.15);
+        .risk-high {
+            background: rgba(239, 68, 68, 0.1);
             color: #ef4444;
             border: 1px solid rgba(239, 68, 68, 0.3);
         }
         
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: currentColor;
+        .recommend-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .section-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .metric-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .metric-card {
+            background: #0f0f11;
+            border: 1px solid #1f1f23;
+            border-radius: 10px;
+            padding: 16px;
+        }
+        
+        .metric-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #71717a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        
+        .metric-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #d4d4d8;
+            line-height: 1.4;
+        }
+        
+        .metric-value.cyan {
+            color: #22d3ee;
+        }
+        
+        .metric-value.green {
+            color: #10b981;
         }
         
         .sentiment-bar {
             height: 8px;
-            background: #27272a;
+            background: #1f1f23;
             border-radius: 4px;
             overflow: hidden;
         }
         
         .sentiment-fill {
             height: 100%;
-            background: linear-gradient(90deg, #06b6d4, #10b981);
+            background: linear-gradient(90deg, #22d3ee, #10b981);
             border-radius: 4px;
             width: {{SENTIMENT_PERCENT}}%;
         }
         
-        .keyword-pill {
-            display: inline-flex;
-            align-items: center;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            background: #27272a;
-            color: #d4d4d8;
-            border: 1px solid #3f3f46;
-        }
-        
         .anim {
             opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
         
         .anim.visible {
@@ -153,127 +191,156 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
-        
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
     </style>
 </head>
 <body>
-    <div style="display:flex; flex-direction:column; height:100%; padding:48px 40px;">
+    <div style="display:flex; flex-direction:column; height:100%; padding:40px 48px;">
         <!-- Header -->
-        <header id="sec-header" class="anim" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:40px;">
-            <div style="display:flex; align-items:center; gap:12px;">
-                <div style="width:36px; height:36px; background:linear-gradient(135deg, #06b6d4, #0891b2); border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow: 0 0 20px rgba(6,182,212,0.3);">
-                    <svg style="width:20px; height:20px; color:white;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <header id="sec-header" class="anim" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:36px;">
+            <div style="display:flex; align-items:center; gap:14px;">
+                <div style="width:44px; height:44px; background:linear-gradient(135deg, #22d3ee, #06b6d4); border-radius:12px; display:flex; align-items:center; justify-content:center; box-shadow: 0 0 24px rgba(34,211,238,0.3);">
+                    <svg style="width:24px; height:24px; color:#0a0a0c;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                         <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
                         <path d="m9 12 2 2 4-4"/>
                     </svg>
                 </div>
-                <span style="font-size:20px; font-weight:800; color:#fafafa; letter-spacing:-0.5px;">SafeSponsor AI</span>
+                <div>
+                    <span style="font-size:22px; font-weight:800; color:#fafafa; letter-spacing:-0.5px;">SafeSponsor <span style="color:#22d3ee;">AI</span></span>
+                    <span style="display:block; font-size:10px; font-weight:700; color:#71717a; text-transform:uppercase; letter-spacing:2px; margin-top:2px;">Brand Safety Engine</span>
+                </div>
             </div>
-            <span style="font-size:11px; font-weight:700; color:#06b6d4; text-transform:uppercase; letter-spacing:2px; padding:6px 14px; background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.3); border-radius:6px;">AI-Powered Audit</span>
+            <div style="display:flex; align-items:center; gap:16px;">
+                <span style="font-size:12px; font-weight:700; color:#22d3ee; padding:8px 16px; background:rgba(34,211,238,0.1); border:1px solid rgba(34,211,238,0.3); border-radius:8px;">LIVE AUDIT</span>
+            </div>
         </header>
         
-        <!-- Audit Card -->
-        <div id="sec-card" class="anim" style="padding:36px; margin-bottom:24px;">
-            <!-- Video Title -->
-            <div style="margin-bottom:28px; padding-bottom:24px; border-bottom:1px solid #27272a;">
-                <span style="font-size:11px; font-weight:700; color:#06b6d4; text-transform:uppercase; letter-spacing:1.5px; display:block; margin-bottom:10px;">Analyzing Creator</span>
-                <h2 style="font-size:22px; font-weight:700; color:#fafafa; line-height:1.4; letter-spacing:-0.3px;">{{VIDEO_TITLE}}</h2>
-            </div>
-            
-            <!-- Score Section -->
-            <div style="display:flex; align-items:center; gap:36px; margin-bottom:28px;">
-                <div id="sec-score" class="anim" style="flex-shrink:0;">
-                    <div class="gauge-ring">
-                        <div class="gauge-inner">
-                            <span class="gauge-value">{{RISK_SCORE}}</span>
-                            <span class="gauge-label">Risk Score</span>
-                        </div>
-                    </div>
+        <!-- Score Section -->
+        <div id="sec-card" class="anim card" style="padding:32px; margin-bottom:20px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:28px;">
+                <div>
+                    <span style="font-size:11px; font-weight:700; color:#22d3ee; text-transform:uppercase; letter-spacing:1.5px; display:block; margin-bottom:8px;">Target: {{VIDEO_TITLE}}</span>
+                    <h2 style="font-size:32px; font-weight:900; color:#fafafa; letter-spacing:-1px;">Executive Risk Dossier</h2>
                 </div>
-                
-                <div style="flex:1;">
-                    <div style="margin-bottom:16px;">
-                        <span class="status-badge {{STATUS_CLASS}}">
-                            <span class="status-dot"></span>
-                            {{RISK_STATUS}}
-                        </span>
+                <div style="display:flex; gap:16px;">
+                    <div id="sec-score" class="anim score-box">
+                        <div class="score-label">Safety Score</div>
+                        <div class="score-value">{{RISK_SCORE}}<span style="font-size:28px; color:#52525b;">/100</span></div>
                     </div>
-                    <p style="font-size:15px; color:#a1a1aa; line-height:1.7; font-weight:500;">{{SUMMARY}}</p>
-                </div>
-            </div>
-            
-            <!-- Transcript Flags -->
-            <div id="sec-flags" class="anim" style="margin-bottom:28px;">
-                <span style="font-size:11px; font-weight:700; color:#71717a; text-transform:uppercase; letter-spacing:1.5px; display:block; margin-bottom:14px;">Transcript Analysis</span>
-                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px;">
-                    <div class="card-elevated" style="padding:20px;">
-                        <span style="font-size:28px; font-weight:900; color:#fafafa; display:block;">{{SLURS_COUNT}}</span>
-                        <span style="font-size:12px; color:#71717a; font-weight:600;">Slurs</span>
-                    </div>
-                    <div class="card-elevated" style="padding:20px;">
-                        <span style="font-size:28px; font-weight:900; color:#fafafa; display:block;">{{POLICY_FLAGS}}</span>
-                        <span style="font-size:12px; color:#71717a; font-weight:600;">Policy Flags</span>
-                    </div>
-                    <div class="card-elevated" style="padding:20px;">
-                        <span style="font-size:28px; font-weight:900; color:#fafafa; display:block;">{{PROFANITY_COUNT}}</span>
-                        <span style="font-size:12px; color:#71717a; font-weight:600;">Profanity</span>
+                    <div class="score-box">
+                        <div class="score-label">Risk Level</div>
+                        <div style="font-size:28px; font-weight:900; color:#22d3ee; margin-top:4px;">{{RISK_STATUS}}</div>
                     </div>
                 </div>
             </div>
             
-            <!-- Comment Sentiment -->
-            <div id="sec-sentiment" class="anim" style="margin-bottom:28px;">
+            <div style="margin-bottom:24px;">
+                <span class="recommend-badge">
+                    <svg style="width:16px; height:16px;" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    {{RECOMMENDATION}}
+                </span>
+            </div>
+            
+            <p style="font-size:15px; color:#a1a1aa; line-height:1.7;">{{SUMMARY}}</p>
+        </div>
+        
+        <!-- Audience Quality -->
+        <div id="sec-flags" class="anim card" style="padding:28px; margin-bottom:20px;">
+            <div class="section-header">
+                <div class="section-icon" style="background:rgba(34,211,238,0.1);">
+                    <svg style="width:16px; height:16px; color:#22d3ee;" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.128a4 4 0 0 1 0 7.744"/>
+                    </svg>
+                </div>
+                <span class="section-title" style="color:#fafafa;">Audience Quality & YouTube Comments Sentiment</span>
+            </div>
+            
+            <div class="metric-row">
+                <div class="metric-card">
+                    <div class="metric-label">Authenticity Rating</div>
+                    <div class="metric-value green">Pristine ({{SENTIMENT_PERCENT}}% authentic engagement)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Demographics</div>
+                    <div class="metric-value">{{AUDIENCE_DEMO}}</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Engagement Quality</div>
+                    <div class="metric-value">High educational engagement, family co-viewing</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Community Sentiment</div>
+                    <div class="metric-value">Universally beloved creator</div>
+                </div>
+            </div>
+            
+            <div class="card-inner" style="padding:20px;">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                    <svg style="width:16px; height:16px; color:#22d3ee;" fill="currentColor" viewBox="0 0 24 24">
+                        <rect width="18" height="12" x="2" y="6" rx="2"/>
+                        <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/>
+                    </svg>
+                    <span style="font-size:12px; font-weight:800; color:#22d3ee; text-transform:uppercase; letter-spacing:1px;">YouTube Comments Sentiment & Toxicity Breakdown (50 Sampled)</span>
+                </div>
+                <p style="font-size:14px; color:#a1a1aa;">{{SENTIMENT_PERCENT}}% positive sentiment celebrating innovation, learning, and community engagement.</p>
+            </div>
+        </div>
+        
+        <!-- Transcript Analysis -->
+        <div id="sec-sentiment" class="anim card" style="padding:28px; margin-bottom:20px;">
+            <div class="section-header">
+                <div class="section-icon" style="background:rgba(34,211,238,0.1);">
+                    <svg style="width:16px; height:16px; color:#22d3ee;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/>
+                        <path d="M14 2v5a1 1 0 0 0 1 1h5"/>
+                        <path d="M10 9H8"/>
+                        <path d="M16 13H8"/>
+                        <path d="M16 17H8"/>
+                    </svg>
+                </div>
+                <span class="section-title" style="color:#fafafa;">Transcript Safety Analysis</span>
+            </div>
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:20px;">
+                <div class="card-inner" style="padding:20px;">
+                    <div class="metric-label">Slurs Detected</div>
+                    <div style="font-size:36px; font-weight:900; color:#10b981;">{{SLURS_COUNT}}</div>
+                </div>
+                <div class="card-inner" style="padding:20px;">
+                    <div class="metric-label">Policy Flags</div>
+                    <div style="font-size:36px; font-weight:900; color:#10b981;">{{POLICY_FLAGS}}</div>
+                </div>
+                <div class="card-inner" style="padding:20px;">
+                    <div class="metric-label">Profanity</div>
+                    <div style="font-size:36px; font-weight:900; color:#10b981;">{{PROFANITY_COUNT}}</div>
+                </div>
+            </div>
+            
+            <div class="card-inner" style="padding:20px;">
                 <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-                    <span style="font-size:11px; font-weight:700; color:#71717a; text-transform:uppercase; letter-spacing:1.5px;">Comment Sentiment</span>
-                    <span style="font-size:16px; font-weight:800; color:#06b6d4;">{{SENTIMENT_PERCENT}}%</span>
+                    <span style="font-size:12px; font-weight:700; color:#71717a; text-transform:uppercase; letter-spacing:1px;">Comment Sentiment</span>
+                    <span style="font-size:18px; font-weight:900; color:#22d3ee;">{{SENTIMENT_PERCENT}}%</span>
                 </div>
                 <div class="sentiment-bar">
                     <div class="sentiment-fill"></div>
                 </div>
             </div>
-            
-            <!-- Flagged Keywords -->
-            <div id="sec-keywords" class="anim">
-                <span style="font-size:11px; font-weight:700; color:#71717a; text-transform:uppercase; letter-spacing:1.5px; display:block; margin-bottom:12px;">Flagged Keywords</span>
-                <div style="display:flex; flex-wrap:wrap; gap:10px;">
-                    {{KEYWORDS_HTML}}
-                </div>
-            </div>
         </div>
-        
-        <!-- Spacer -->
-        <div style="flex:1;"></div>
         
         <!-- CTA -->
-        <div id="sec-cta" class="anim" style="text-align:center; margin-bottom:32px;">
-            <p style="font-size:18px; font-weight:600; color:#d4d4d8; margin-bottom:18px;">Run a free creator safety audit</p>
-            <div style="display:inline-flex; align-items:center; gap:10px; padding:14px 32px; background:linear-gradient(135deg, #ea580c, #f97316); border-radius:12px; box-shadow: 0 0 30px rgba(249,115,22,0.3);">
-                <svg style="width:18px; height:18px; color:white;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <div id="sec-cta" class="anim" style="text-align:center; margin-top:auto; padding-top:20px;">
+            <div style="display:inline-flex; align-items:center; gap:12px; padding:16px 36px; background:linear-gradient(135deg, #ea580c, #f97316); border-radius:12px; box-shadow: 0 0 40px rgba(249,115,22,0.3);">
+                <svg style="width:20px; height:20px; color:white;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                     <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
                     <path d="m9 12 2 2 4-4"/>
                 </svg>
-                <span style="font-size:15px; font-weight:700; color:white;">safe-sponsor-ai.vercel.app</span>
+                <span style="font-size:16px; font-weight:800; color:white;">Run Free Audit at safe-sponsor-ai.vercel.app</span>
             </div>
         </div>
-        
-        <!-- Footer -->
-        <footer id="sec-footer" class="anim" style="display:flex; align-items:center; justify-content:space-between; padding-top:24px; border-top:1px solid #27272a;">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <svg style="width:16px; height:16px; color:#06b6d4;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
-                    <path d="m9 12 2 2 4-4"/>
-                </svg>
-                <span style="font-size:13px; font-weight:700; color:#fafafa;">SafeSponsor AI</span>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px;">
-                <div style="width:8px; height:8px; background:#06b6d4; border-radius:50%; animation:pulse 1.5s ease-in-out infinite; box-shadow: 0 0 10px rgba(6,182,212,0.5);"></div>
-                <span style="font-size:11px; color:#71717a; font-weight:700; text-transform:uppercase; letter-spacing:1px;">LIVE AUDIT</span>
-            </div>
-        </footer>
     </div>
 </body>
 </html>

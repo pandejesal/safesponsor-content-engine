@@ -89,6 +89,15 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
     keywords_html = generate_keyword_pills(flagged_keywords)
     cta_text = "Run a free creator safety audit"
 
+    if risk_score <= 30:
+        recommendation = "Recommended: Sponsor"
+    elif risk_score <= 60:
+        recommendation = "Caution: Review Required"
+    else:
+        recommendation = "Not Recommended"
+
+    audience_demo = audience_alignment[:80] if audience_alignment else "General audience"
+
     fps = 15
     total_duration = 8.0
     total_frames = int(total_duration * fps)
@@ -113,6 +122,8 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
     html_content = html_content.replace("{{PROFANITY_COUNT}}", str(profanity_count))
     html_content = html_content.replace("{{SENTIMENT_PERCENT}}", str(comment_sentiment))
     html_content = html_content.replace("{{KEYWORDS_HTML}}", keywords_html)
+    html_content = html_content.replace("{{RECOMMENDATION}}", recommendation)
+    html_content = html_content.replace("{{AUDIENCE_DEMO}}", audience_demo)
 
     temp_html = frames_dir / "reel.html"
     temp_html.write_text(html_content, encoding="utf-8")
@@ -125,9 +136,7 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
         "sec-score": 0.8,
         "sec-flags": 1.5,
         "sec-sentiment": 2.5,
-        "sec-keywords": 3.2,
         "sec-cta": 5.0,
-        "sec-footer": 5.5,
     }
 
     with sync_playwright() as p:
