@@ -10,7 +10,7 @@ from moviepy import (
 )
 
 
-async def generate_voiceover_with_timestamps(text: str, output_path: str, voice: str = "en-US-ChristopherNeural"):
+async def generate_voiceover_with_timestamps(text: str, output_path: str, voice: str = "en-US-GuyNeural"):
     """Generate AI voiceover and return word timestamps."""
     communicate = edge_tts.Communicate(text, voice)
     word_timestamps = []
@@ -48,36 +48,55 @@ def create_fallback_timestamps(text: str, total_duration: float) -> list:
     return timestamps
 
 
-def get_score_degrees(score: int) -> int:
-    """Calculate degrees for score ring conic gradient."""
+def get_gauge_color(score: int) -> str:
+    """Get gauge color based on risk score."""
+    if score <= 30:
+        return "#22c55e"
+    elif score <= 60:
+        return "#eab308"
+    else:
+        return "#ef4444"
+
+
+def get_gauge_degrees(score: int) -> int:
+    """Calculate degrees for gauge ring."""
     return int((score / 100) * 360)
 
 
 def get_risk_status(score: int) -> str:
-    """Get risk status label based on score."""
+    """Get risk status label."""
     if score <= 30:
-        return "SAFE"
+        return "LOW RISK"
     elif score <= 60:
         return "MODERATE"
     else:
         return "HIGH RISK"
 
 
+def get_status_class(score: int) -> str:
+    """Get CSS class for status badge."""
+    if score <= 30:
+        return "status-low"
+    elif score <= 60:
+        return "status-medium"
+    else:
+        return "status-high"
+
+
 def generate_keyword_pills(keywords: list) -> str:
     """Generate HTML for keyword pills."""
-    pills_html = ""
-    
-    for kw in keywords[:3]:
-        pills_html += f'<span class="keyword-pill">{kw}</span>'
-    
     if not keywords:
-        pills_html = '<span class="keyword-pill" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.4); color: #6ee7b7;">Clean</span>'
+        return '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">No flags</span>'
+    
+    pills_html = ""
+    for kw in keywords[:5]:
+        pills_html += f'<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-zinc-800 text-zinc-300 border border-zinc-700">{kw}</span>'
     
     return pills_html
 
 
 def generate_subtitle_html(words: list, active_index: int) -> str:
-    """Generate HTML for kinetic subtitles with active word highlighted."""
+    """Generate HTML for subtitles with active word highlighted."""
     html = ""
     for i, word in enumerate(words):
         if i == active_index:
@@ -89,9 +108,9 @@ def generate_subtitle_html(words: list, active_index: int) -> str:
     return html
 
 
-def generate_ensotrade_reel(reel_script_data: dict, analysis_data: dict) -> dict:
+def generate_safesponsor_reel(reel_script_data: dict, analysis_data: dict) -> dict:
     """
-    Generate an EnsoTrade-style dark mode vertical video reel.
+    Generate a SafeSponsor AI professional audit report video.
     
     Args:
         reel_script_data: Object with hook, body, cta
@@ -127,18 +146,35 @@ def generate_ensotrade_reel(reel_script_data: dict, analysis_data: dict) -> dict
     
     risk_score = analysis_data.get("risk_score", 0)
     flagged_keywords = analysis_data.get("flagged_keywords", [])
-    video_title = analysis_data.get("summary", "Video Analysis")[:80]
+    summary = analysis_data.get("summary", "Analysis complete.")
+    transcript_flags = analysis_data.get("transcript_flags", {})
+    comment_sentiment = analysis_data.get("comment_sentiment", 88)
     
-    score_degrees = get_score_degrees(risk_score)
+    slurs_count = transcript_flags.get("slurs_count", 0)
+    policy_flags = transcript_flags.get("policy_flags_count", 0)
+    profanity_count = transcript_flags.get("profanity_count", 0)
+    
+    video_title = summary[:100] if summary else "Video Analysis"
+    
+    gauge_color = get_gauge_color(risk_score)
+    gauge_degrees = get_gauge_degrees(risk_score)
     risk_status = get_risk_status(risk_score)
+    status_class = get_status_class(risk_score)
     
-    template_path = Path("templates/ensotrade_reel.html").resolve()
+    template_path = Path("templates/safesponsor_reel.html").resolve()
     html_content = template_path.read_text(encoding="utf-8")
     
-    html_content = html_content.replace("{{SCORE_DEGREES}}", str(score_degrees))
     html_content = html_content.replace("{{VIDEO_TITLE}}", video_title)
     html_content = html_content.replace("{{RISK_SCORE}}", str(risk_score))
     html_content = html_content.replace("{{RISK_STATUS}}", risk_status)
+    html_content = html_content.replace("{{STATUS_CLASS}}", status_class)
+    html_content = html_content.replace("{{SUMMARY}}", summary[:150])
+    html_content = html_content.replace("{{GAUGE_COLOR}}", gauge_color)
+    html_content = html_content.replace("{{GAUGE_DEGREES}}", str(gauge_degrees))
+    html_content = html_content.replace("{{SLURS_COUNT}}", str(slurs_count))
+    html_content = html_content.replace("{{POLICY_FLAGS}}", str(policy_flags))
+    html_content = html_content.replace("{{PROFANITY_COUNT}}", str(profanity_count))
+    html_content = html_content.replace("{{SENTIMENT_PERCENT}}", str(comment_sentiment))
     html_content = html_content.replace("{{KEYWORDS_HTML}}", generate_keyword_pills(flagged_keywords))
     
     all_words = []
@@ -149,10 +185,10 @@ def generate_ensotrade_reel(reel_script_data: dict, analysis_data: dict) -> dict
     initial_subtitle = generate_subtitle_html(all_words, -1)
     html_content = html_content.replace("{{SUBTITLE_WORDS}}", initial_subtitle)
     
-    frames_dir = output_dir / "ensotrade_frames"
+    frames_dir = output_dir / "safesponsor_frames"
     frames_dir.mkdir(parents=True, exist_ok=True)
     
-    temp_html = frames_dir / "ensotrade_frame.html"
+    temp_html = frames_dir / "safesponsor_frame.html"
     temp_html.write_text(html_content, encoding="utf-8")
     
     print("  Rendering animated frames with Playwright...")

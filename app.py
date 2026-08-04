@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from fetcher import get_transcript_from_url
 from analyzer import analyze_transcript
 from generator import generate_carousel_assets
-from reel_generator import generate_ensotrade_reel
+from reel_generator import generate_safesponsor_reel
 from notifier import send_to_telegram
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -51,10 +51,10 @@ def main():
     print("\n[Step 3/5] Generating LinkedIn carousel assets...")
     asset_paths = generate_carousel_assets(analysis_result)
     
-    # Step 4: Generate EnsoTrade Style Reel
-    print("\n[Step 4/5] Generating EnsoTrade style reel...")
+    # Step 4: Generate SafeSponsor Reel
+    print("\n[Step 4/5] Generating brand safety audit reel...")
     reel_script = analysis_result.get("reel_script", {})
-    reel_paths = generate_ensotrade_reel(reel_script, analysis_result)
+    reel_paths = generate_safesponsor_reel(reel_script, analysis_result)
     
     # Step 5: Send to Telegram
     print("\n[Step 5/5] Sending to Telegram...")
@@ -66,7 +66,7 @@ def main():
     )
     
     if telegram_success:
-        print("\n🚀 Content successfully dispatched to Telegram!")
+        print("\nContent successfully dispatched to Telegram!")
     
     # Print Social Media Content
     print("\n" + "=" * 60)
@@ -74,10 +74,17 @@ def main():
     print("=" * 60)
     print(f"  Risk Score: {analysis_result['risk_score']}/100")
     print(f"  Risk Level: {analysis_result['risk_level']}")
+    print(f"  Sponsorship Suitability: {analysis_result.get('sponsorship_suitability', 'N/A')}")
     print(f"  Summary: {analysis_result['summary']}")
     
     if analysis_result.get('flagged_keywords'):
         print(f"  Flagged Keywords: {', '.join(analysis_result['flagged_keywords'])}")
+    
+    transcript_flags = analysis_result.get('transcript_flags', {})
+    if transcript_flags:
+        print(f"  Transcript Flags: {transcript_flags.get('slurs_count', 0)} slurs, {transcript_flags.get('policy_flags_count', 0)} policy flags, {transcript_flags.get('profanity_count', 0)} profanity")
+    
+    print(f"  Comment Sentiment: {analysis_result.get('comment_sentiment', 'N/A')}%")
     
     print("\n" + "=" * 60)
     print("TWITTER THREAD")
@@ -98,7 +105,7 @@ def main():
     for slide_path in asset_paths['slides']:
         print(f"    - {slide_path}")
     print(f"  PDF: {asset_paths['pdf']}")
-    print(f"  EnsoTrade Reel: {reel_paths['reel']}")
+    print(f"  Audit Reel: {reel_paths['reel']}")
     
     print("\n" + "=" * 60)
     print("Pipeline complete!")

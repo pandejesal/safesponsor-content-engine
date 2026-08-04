@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            width: 1080px;
+            height: 1920px;
+            background: #09090b;
+            overflow: hidden;
+        }
+        
+        .audit-card {
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 16px;
+        }
+        
+        .metric-card {
+            background: #09090b;
+            border: 1px solid #27272a;
+            border-radius: 12px;
+        }
+        
+        .gauge-ring {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 180deg,
+                #22c55e 0deg,
+                #22c55e 18deg,
+                #27272a 18deg,
+                #27272a 360deg
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .gauge-inner {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: #18181b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .gauge-value {
+            font-size: 48px;
+            font-weight: 600;
+            color: #fafafa;
+            line-height: 1;
+        }
+        
+        .gauge-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #71717a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-low {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        
+        .status-medium {
+            background: rgba(234, 179, 8, 0.1);
+            color: #eab308;
+            border: 1px solid rgba(234, 179, 8, 0.2);
+        }
+        
+        .status-high {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+        
+        .flag-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #09090b;
+            border: 1px solid #27272a;
+            border-radius: 8px;
+        }
+        
+        .flag-label {
+            font-size: 14px;
+            color: #a1a1aa;
+        }
+        
+        .flag-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fafafa;
+        }
+        
+        .sentiment-bar {
+            height: 4px;
+            background: #27272a;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .sentiment-fill {
+            height: 100%;
+            background: #22c55e;
+            border-radius: 2px;
+            transition: width 1s ease-out;
+        }
+        
+        .subtitle-text {
+            font-size: 32px;
+            font-weight: 400;
+            color: #fafafa;
+            line-height: 1.5;
+            letter-spacing: -0.01em;
+        }
+        
+        .subtitle-word {
+            display: inline-block;
+            color: #52525b;
+            transition: color 0.2s ease-out;
+            margin: 0 4px;
+        }
+        
+        .subtitle-word.active {
+            color: #fafafa;
+        }
+        
+        .subtitle-word.spoken {
+            color: #a1a1aa;
+        }
+    </style>
+</head>
+<body class="bg-[#09090b] text-white">
+    <div class="flex flex-col h-full px-12 py-16">
+        <!-- Header -->
+        <header class="flex items-center justify-between mb-10">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                    </svg>
+                </div>
+                <span class="text-lg font-semibold text-zinc-100">SafeSponsor AI</span>
+            </div>
+            <span class="text-xs font-medium text-zinc-500 uppercase tracking-widest">Audit Report</span>
+        </header>
+        
+        <!-- Audit Card -->
+        <div class="audit-card p-8 mb-6">
+            <!-- Video Title -->
+            <div class="mb-6 pb-6 border-b border-zinc-800">
+                <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider block mb-2">Analyzing</span>
+                <h2 class="text-xl font-medium text-zinc-100 leading-snug">This transcript represents an exceptionally low-risk profile with zero detected safety violations or</h2>
+            </div>
+            
+            <!-- Score Section -->
+            <div class="flex items-center gap-8 mb-6">
+                <div class="gauge-ring">
+                    <div class="gauge-inner">
+                        <span class="gauge-value">5</span>
+                        <span class="gauge-label">Risk Score</span>
+                    </div>
+                </div>
+                
+                <div class="flex-1">
+                    <div class="mb-4">
+                        <span class="status-badge status-low">
+                            <span class="status-dot"></span>
+                            LOW RISK
+                        </span>
+                    </div>
+                    <p class="text-sm text-zinc-400 leading-relaxed">This transcript represents an exceptionally low-risk profile with zero detected safety violations or profanity. The thematic focus on commitment and r</p>
+                </div>
+            </div>
+            
+            <!-- Transcript Flags -->
+            <div class="mb-6">
+                <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider block mb-3">Transcript Analysis</span>
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="metric-card p-4">
+                        <span class="text-2xl font-semibold text-zinc-100 block">0</span>
+                        <span class="text-xs text-zinc-500">Slurs</span>
+                    </div>
+                    <div class="metric-card p-4">
+                        <span class="text-2xl font-semibold text-zinc-100 block">0</span>
+                        <span class="text-xs text-zinc-500">Policy Flags</span>
+                    </div>
+                    <div class="metric-card p-4">
+                        <span class="text-2xl font-semibold text-zinc-100 block">0</span>
+                        <span class="text-xs text-zinc-500">Profanity</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Comment Sentiment -->
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider">Comment Sentiment</span>
+                    <span class="text-sm font-semibold text-zinc-100">95%</span>
+                </div>
+                <div class="sentiment-bar">
+                    <div class="sentiment-fill" style="width: 95%"></div>
+                </div>
+            </div>
+            
+            <!-- Flagged Keywords -->
+            <div>
+                <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider block mb-3">Flagged Keywords</span>
+                <div class="flex flex-wrap gap-2">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">No flags</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Spacer -->
+        <div class="flex-1"></div>
+        
+        <!-- Subtitles -->
+        <div class="mb-8 px-4">
+            <div class="subtitle-text" id="kinetic-subtitles">
+                <span class="subtitle-word">Is</span><span class="subtitle-word">your</span><span class="subtitle-word">sponsorship</span><span class="subtitle-word">strategy</span><span class="subtitle-word">truly</span><span class="subtitle-word">secure?</span><span class="subtitle-word">Let's</span><span class="subtitle-word">analyze</span><span class="subtitle-word">a</span><span class="subtitle-word">classic</span><span class="subtitle-word">high-affinity</span><span class="subtitle-word">media</span><span class="subtitle-word">asset.</span><span class="subtitle-word">Our</span><span class="subtitle-word">SafeSponsor</span><span class="subtitle-word">AI</span><span class="subtitle-word">protocol</span><span class="subtitle-word">audited</span><span class="subtitle-word">this</span><span class="subtitle-word">transcript,</span><span class="subtitle-word">finding</span><span class="subtitle-word">zero</span><span class="subtitle-word">profanity</span><span class="subtitle-word">flags</span><span class="subtitle-word">and</span><span class="subtitle-word">zero</span><span class="subtitle-word">policy</span><span class="subtitle-word">violations.</span><span class="subtitle-word">With</span><span class="subtitle-word">an</span><span class="subtitle-word">overall</span><span class="subtitle-word">Risk</span><span class="subtitle-word">Score</span><span class="subtitle-word">of</span><span class="subtitle-word">five</span><span class="subtitle-word">out</span><span class="subtitle-word">of</span><span class="subtitle-word">one</span><span class="subtitle-word">hundred</span><span class="subtitle-word">and</span><span class="subtitle-word">an</span><span class="subtitle-word">estimated</span><span class="subtitle-word">ninety-five</span><span class="subtitle-word">percent</span><span class="subtitle-word">positive</span><span class="subtitle-word">sentiment,</span><span class="subtitle-word">this</span><span class="subtitle-word">content</span><span class="subtitle-word">represents</span><span class="subtitle-word">an</span><span class="subtitle-word">ideal</span><span class="subtitle-word">integration</span><span class="subtitle-word">environment.</span><span class="subtitle-word">Ensure</span><span class="subtitle-word">your</span><span class="subtitle-word">ad</span><span class="subtitle-word">placements</span><span class="subtitle-word">are</span><span class="subtitle-word">fully</span><span class="subtitle-word">protected.</span><span class="subtitle-word">Run</span><span class="subtitle-word">a</span><span class="subtitle-word">free</span><span class="subtitle-word">brand</span><span class="subtitle-word">safety</span><span class="subtitle-word">audit</span><span class="subtitle-word">today</span><span class="subtitle-word">at</span><span class="subtitle-word">safe-sponsor-ai.vercel.app.</span>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="flex items-center justify-between pt-6 border-t border-zinc-800/50">
+            <span class="text-xs text-zinc-600">safe-sponsor-ai.vercel.app</span>
+            <div class="flex items-center gap-2">
+                <div class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
+                <span class="text-xs text-zinc-500 font-medium">LIVE AUDIT</span>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
