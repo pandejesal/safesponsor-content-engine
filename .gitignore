@@ -22,6 +22,7 @@ build/
 
 # Output files
 analysis_result.json
+output/
 
 # OS
 .DS_Store

@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1080, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
@@ -148,34 +147,126 @@
             transition: width 1s ease-out;
         }
         
-        .subtitle-text {
-            font-size: 32px;
-            font-weight: 400;
-            color: #fafafa;
-            line-height: 1.5;
-            letter-spacing: -0.01em;
+        .keyword-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 500;
+            background: #27272a;
+            color: #d4d4d8;
+            border: 1px solid #3f3f46;
         }
         
-        .subtitle-word {
-            display: inline-block;
-            color: #52525b;
-            transition: color 0.2s ease-out;
-            margin: 0 4px;
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out forwards;
         }
         
-        .subtitle-word.active {
-            color: #fafafa;
+        .fade-in-delay-1 {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out 0.3s forwards;
         }
         
-        .subtitle-word.spoken {
-            color: #a1a1aa;
+        .fade-in-delay-2 {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out 0.6s forwards;
+        }
+        
+        .fade-in-delay-3 {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out 0.9s forwards;
+        }
+        
+        .fade-in-delay-4 {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out 1.2s forwards;
+        }
+        
+        .slide-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.7s ease-out forwards;
+        }
+        
+        .slide-up-delay-1 {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.7s ease-out 0.2s forwards;
+        }
+        
+        .slide-up-delay-2 {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.7s ease-out 0.4s forwards;
+        }
+        
+        .slide-up-delay-3 {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.7s ease-out 0.6s forwards;
+        }
+        
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            animation: scaleIn 0.6s ease-out forwards;
+        }
+        
+        .counter-animate {
+            animation: counterPulse 1s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes scaleIn {
+            from { 
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes counterPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
     </style>
 </head>
 <body class="bg-[#09090b] text-white">
     <div class="flex flex-col h-full px-12 py-16">
         <!-- Header -->
-        <header class="flex items-center justify-between mb-10">
+        <header class="flex items-center justify-between mb-10 fade-in">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -188,7 +279,7 @@
         </header>
         
         <!-- Audit Card -->
-        <div class="audit-card p-8 mb-6">
+        <div class="audit-card p-8 mb-6 fade-in-delay-1">
             <!-- Video Title -->
             <div class="mb-6 pb-6 border-b border-zinc-800">
                 <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider block mb-2">Analyzing</span>
@@ -197,7 +288,7 @@
             
             <!-- Score Section -->
             <div class="flex items-center gap-8 mb-6">
-                <div class="gauge-ring">
+                <div class="gauge-ring scale-in">
                     <div class="gauge-inner">
                         <span class="gauge-value">{{RISK_SCORE}}</span>
                         <span class="gauge-label">Risk Score</span>
@@ -205,29 +296,29 @@
                 </div>
                 
                 <div class="flex-1">
-                    <div class="mb-4">
+                    <div class="mb-4 slide-up">
                         <span class="status-badge {{STATUS_CLASS}}">
                             <span class="status-dot"></span>
                             {{RISK_STATUS}}
                         </span>
                     </div>
-                    <p class="text-sm text-zinc-400 leading-relaxed">{{SUMMARY}}</p>
+                    <p class="text-sm text-zinc-400 leading-relaxed slide-up-delay-1">{{SUMMARY}}</p>
                 </div>
             </div>
             
             <!-- Transcript Flags -->
             <div class="mb-6">
-                <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider block mb-3">Transcript Analysis</span>
+                <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider block mb-3 slide-up-delay-2">Transcript Analysis</span>
                 <div class="grid grid-cols-3 gap-3">
-                    <div class="metric-card p-4">
+                    <div class="metric-card p-4 slide-up-delay-2">
                         <span class="text-2xl font-semibold text-zinc-100 block">{{SLURS_COUNT}}</span>
                         <span class="text-xs text-zinc-500">Slurs</span>
                     </div>
-                    <div class="metric-card p-4">
+                    <div class="metric-card p-4 slide-up-delay-3">
                         <span class="text-2xl font-semibold text-zinc-100 block">{{POLICY_FLAGS}}</span>
                         <span class="text-xs text-zinc-500">Policy Flags</span>
                     </div>
-                    <div class="metric-card p-4">
+                    <div class="metric-card p-4 slide-up-delay-4">
                         <span class="text-2xl font-semibold text-zinc-100 block">{{PROFANITY_COUNT}}</span>
                         <span class="text-xs text-zinc-500">Profanity</span>
                     </div>
@@ -241,7 +332,7 @@
                     <span class="text-sm font-semibold text-zinc-100">{{SENTIMENT_PERCENT}}%</span>
                 </div>
                 <div class="sentiment-bar">
-                    <div class="sentiment-fill" style="width: {{SENTIMENT_PERCENT}}%"></div>
+                    <div class="sentiment-fill" style="width: 0%" data-target-width="{{SENTIMENT_PERCENT}}%"></div>
                 </div>
             </div>
             
@@ -257,10 +348,11 @@
         <!-- Spacer -->
         <div class="flex-1"></div>
         
-        <!-- Subtitles -->
-        <div class="mb-8 px-4">
-            <div class="subtitle-text" id="kinetic-subtitles">
-                {{SUBTITLE_WORDS}}
+        <!-- CTA -->
+        <div class="text-center mb-8">
+            <p class="text-lg font-medium text-zinc-300 mb-4 fade-in-delay-3">{{CTA_TEXT}}</p>
+            <div class="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 rounded-lg fade-in-delay-4">
+                <span class="text-sm font-semibold text-white">safe-sponsor-ai.vercel.app</span>
             </div>
         </div>
         
@@ -268,10 +360,23 @@
         <footer class="flex items-center justify-between pt-6 border-t border-zinc-800/50">
             <span class="text-xs text-zinc-600">safe-sponsor-ai.vercel.app</span>
             <div class="flex items-center gap-2">
-                <div class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
+                <div class="w-1.5 h-1.5 bg-emerald-500 rounded-full" style="animation: pulse 1.5s ease-in-out infinite"></div>
                 <span class="text-xs text-zinc-500 font-medium">LIVE AUDIT</span>
             </div>
         </footer>
     </div>
+    
+    <script>
+        // Animate sentiment bar fill
+        document.addEventListener('DOMContentLoaded', function() {
+            const sentimentFill = document.querySelector('.sentiment-fill');
+            if (sentimentFill) {
+                const targetWidth = sentimentFill.getAttribute('data-target-width');
+                setTimeout(() => {
+                    sentimentFill.style.width = targetWidth;
+                }, 500);
+            }
+        });
+    </script>
 </body>
 </html>
