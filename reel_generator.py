@@ -8,10 +8,10 @@ from moviepy import ImageClip, concatenate_videoclips
 
 
 def get_gauge_color(score):
-    if score <= 30:
-        return "#22c55e"
-    elif score <= 60:
-        return "#eab308"
+    if score >= 70:
+        return "#10b981"
+    elif score >= 40:
+        return "#f59e0b"
     return "#ef4444"
 
 
@@ -20,17 +20,17 @@ def get_gauge_degrees(score):
 
 
 def get_risk_status(score):
-    if score <= 30:
-        return "LOW RISK"
-    elif score <= 60:
-        return "MODERATE"
-    return "HIGH RISK"
+    if score >= 70:
+        return "LOW"
+    elif score >= 40:
+        return "MEDIUM"
+    return "HIGH"
 
 
 def get_status_class(score):
-    if score <= 30:
+    if score >= 70:
         return "status-low"
-    elif score <= 60:
+    elif score >= 40:
         return "status-medium"
     return "status-high"
 

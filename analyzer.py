@@ -49,10 +49,12 @@ def analyze_transcript_local(transcript: str) -> dict:
     risk_score += policy_flags_count * 20
     risk_score = min(risk_score, 100)
 
-    if risk_score <= 30:
+    safety_score = 100 - risk_score
+
+    if safety_score >= 70:
         risk_level = "LOW"
         sponsorship_suitability = "RECOMMENDED"
-    elif risk_score <= 60:
+    elif safety_score >= 40:
         risk_level = "MEDIUM"
         sponsorship_suitability = "CAUTION"
     else:
@@ -73,7 +75,7 @@ def analyze_transcript_local(transcript: str) -> dict:
     reel_script = generate_reel_script(risk_score, risk_level, comment_sentiment)
 
     return {
-        "risk_score": risk_score,
+        "risk_score": safety_score,
         "risk_level": risk_level,
         "summary": summary,
         "flagged_keywords": flagged_keywords[:5],
