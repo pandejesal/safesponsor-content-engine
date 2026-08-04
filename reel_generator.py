@@ -10,8 +10,9 @@ from moviepy import ImageClip, AudioFileClip, concatenate_videoclips
 SCENE_DURATIONS = {
     "scene-1": 2.67,
     "scene-2": 2.67,
-    "scene-3": 2.67,
+    "scene-3": 3.0,
     "scene-4": 2.67,
+    "scene-5": 2.0,
 }
 
 MUSIC_START = 22

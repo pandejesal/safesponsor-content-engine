@@ -161,8 +161,83 @@
         .score-fill.caution { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
         .score-fill.risky { background: linear-gradient(90deg, #ef4444, #f87171); }
         
-        /* === SCENE 3: STATS === */
+        /* === SCENE 3: AUDIT FEATURES === */
         #scene-3 {
+            background: #0a0a0a;
+        }
+        
+        .features-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .features-title.animate {
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 850px;
+        }
+        
+        .feature-card {
+            background: #111111;
+            border: 1px solid #222222;
+            border-radius: 16px;
+            padding: 28px 24px;
+            opacity: 0;
+            transform: translateY(40px) scale(0.9);
+        }
+        
+        .feature-card.animate {
+            animation: popUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        .feature-card:nth-child(1).animate { animation-delay: 0s; }
+        .feature-card:nth-child(2).animate { animation-delay: 0.08s; }
+        .feature-card:nth-child(3).animate { animation-delay: 0.16s; }
+        .feature-card:nth-child(4).animate { animation-delay: 0.24s; }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        
+        .feature-icon.cyan { background: rgba(34, 211, 238, 0.15); }
+        .feature-icon.orange { background: rgba(249, 115, 22, 0.15); }
+        .feature-icon.green { background: rgba(34, 197, 94, 0.15); }
+        .feature-icon.red { background: rgba(239, 68, 68, 0.15); }
+        
+        .feature-name {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+        
+        .feature-desc {
+            font-size: 14px;
+            font-weight: 500;
+            color: #64748b;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+        
+        /* === SCENE 4: STATS === */
+        #scene-4 {
             background: #0a0a0a;
         }
         
@@ -366,8 +441,54 @@
         </div>
     </div>
     
-    <!-- Scene 3: Stats -->
+    <!-- Scene 3: Audit Features -->
     <div id="scene-3" class="scene">
+        <div class="features-title">WE CHECK EVERYTHING</div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon cyan">
+                    <svg width="24" height="24" fill="none" stroke="#22d3ee" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z"/>
+                        <path d="M9 12h6m-6 4h6m2-8H7"/>
+                    </svg>
+                </div>
+                <div class="feature-name">PR & Controversy</div>
+                <div class="feature-desc">Public perception history</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon orange">
+                    <svg width="24" height="24" fill="none" stroke="#f97316" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 00-3-3.87m-4-12a4 4 0 010 7.75"/>
+                    </svg>
+                </div>
+                <div class="feature-name">Competitor Intel</div>
+                <div class="feature-desc">Endorsement exclusivity</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon green">
+                    <svg width="24" height="24" fill="none" stroke="#22c55e" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                    </svg>
+                </div>
+                <div class="feature-name">Sentiment Analysis</div>
+                <div class="feature-desc">50 sampled comments</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon red">
+                    <svg width="24" height="24" fill="none" stroke="#ef4444" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+                    </svg>
+                </div>
+                <div class="feature-name">Red Flags</div>
+                <div class="feature-desc">Behavioral warnings</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scene 4: Stats -->
+    <div id="scene-4" class="scene">
         <div class="stats-container">
             <div class="stat-row">
                 <div class="stat-icon red">
@@ -406,8 +527,8 @@
         </div>
     </div>
     
-    <!-- Scene 4: CTA -->
-    <div id="scene-4" class="scene">
+    <!-- Scene 5: CTA -->
+    <div id="scene-5" class="scene">
         <div class="cta-logo">
             <svg viewBox="0 0 100 100" width="80" height="80">
                 <defs>
@@ -446,7 +567,7 @@
             scene.classList.add('active');
             
             requestAnimationFrame(() => {
-                scene.querySelectorAll('.logo-icon, .hook-line, .hook-badge, .score-label, .score-number, .score-bar, .stat-row, .cta-logo, .cta-title, .cta-button, .cta-url').forEach(el => {
+                scene.querySelectorAll('.logo-icon, .hook-line, .hook-badge, .score-label, .score-number, .score-bar, .features-title, .feature-card, .stat-row, .cta-logo, .cta-title, .cta-button, .cta-url').forEach(el => {
                     el.classList.add('animate');
                 });
                 
