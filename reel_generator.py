@@ -146,9 +146,9 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
     if music_path.exists():
         print("  Adding music track...")
         music = AudioFileClip(str(music_path))
-        video_duration = final_video.duration
-        if music.duration > video_duration:
-            music = music.subclipped(0, video_duration)
+        music_start = 54
+        music_end = music_start + final_video.duration
+        music = music.subclipped(music_start, music_end)
         final_video = final_video.with_audio(music)
 
     reel_path = str(output_dir / "safesponsor_reel.mp4")
