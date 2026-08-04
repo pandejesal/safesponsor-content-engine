@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1080, initial-scale=1.0">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
         * {
             margin: 0;
             padding: 0;
@@ -13,7 +11,7 @@
         }
         
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             width: 1080px;
             height: 1920px;
             background: #09090b;
@@ -112,27 +110,6 @@
             background: currentColor;
         }
         
-        .flag-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 16px;
-            background: #09090b;
-            border: 1px solid #27272a;
-            border-radius: 8px;
-        }
-        
-        .flag-label {
-            font-size: 14px;
-            color: #a1a1aa;
-        }
-        
-        .flag-value {
-            font-size: 14px;
-            font-weight: 600;
-            color: #fafafa;
-        }
-        
         .sentiment-bar {
             height: 4px;
             background: #27272a;
@@ -159,7 +136,6 @@
             border: 1px solid #3f3f46;
         }
         
-        /* Animation Classes */
         .fade-in {
             opacity: 0;
             animation: fadeIn 0.6s ease-out forwards;
@@ -215,10 +191,6 @@
             animation: scaleIn 0.6s ease-out forwards;
         }
         
-        .counter-animate {
-            animation: counterPulse 1s ease-out forwards;
-        }
-        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -246,48 +218,37 @@
             }
         }
         
-        @keyframes counterPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
-        
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
     </style>
 </head>
-<body class="bg-[#09090b] text-white">
-    <div class="flex flex-col h-full px-12 py-16">
+<body>
+    <div style="display:flex; flex-direction:column; height:100%; padding:48px;">
         <!-- Header -->
-        <header class="flex items-center justify-between mb-10 fade-in">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+        <header style="display:flex; align-items:center; justify-content:space-between; margin-bottom:40px;" class="fade-in">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div style="width:32px; height:32px; background:#22c55e; border-radius:8px; display:flex; align-items:center; justify-content:center;">
+                    <svg style="width:20px; height:20px; color:white;" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                     </svg>
                 </div>
-                <span class="text-lg font-semibold text-zinc-100">SafeSponsor AI</span>
+                <span style="font-size:18px; font-weight:600; color:#fafafa;">SafeSponsor AI</span>
             </div>
-            <span class="text-xs font-medium text-zinc-500 uppercase tracking-widest">Sponsorship Vetting</span>
+            <span style="font-size:12px; font-weight:500; color:#71717a; text-transform:uppercase; letter-spacing:2px;">Sponsorship Vetting</span>
         </header>
         
         <!-- Audit Card -->
-        <div class="audit-card p-8 mb-6 fade-in-delay-1">
+        <div class="audit-card fade-in-delay-1" style="padding:32px; margin-bottom:24px;">
             <!-- Video Title -->
-            <div class="mb-6 pb-6 border-b border-zinc-800">
-                <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider block mb-2">Analyzing</span>
-                <h2 class="text-xl font-medium text-zinc-100 leading-snug">{{VIDEO_TITLE}}</h2>
+            <div style="margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid #27272a;">
+                <span style="font-size:12px; font-weight:500; color:#71717a; text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:8px;">Analyzing</span>
+                <h2 style="font-size:20px; font-weight:500; color:#fafafa; line-height:1.4;">{{VIDEO_TITLE}}</h2>
             </div>
             
             <!-- Score Section -->
-            <div class="flex items-center gap-8 mb-6">
+            <div style="display:flex; align-items:center; gap:32px; margin-bottom:24px;">
                 <div class="gauge-ring scale-in">
                     <div class="gauge-inner">
                         <span class="gauge-value">{{RISK_SCORE}}</span>
@@ -295,41 +256,41 @@
                     </div>
                 </div>
                 
-                <div class="flex-1">
-                    <div class="mb-4 slide-up">
+                <div style="flex:1;">
+                    <div class="slide-up" style="margin-bottom:16px;">
                         <span class="status-badge {{STATUS_CLASS}}">
                             <span class="status-dot"></span>
                             {{RISK_STATUS}}
                         </span>
                     </div>
-                    <p class="text-sm text-zinc-400 leading-relaxed slide-up-delay-1">{{SUMMARY}}</p>
+                    <p class="slide-up-delay-1" style="font-size:14px; color:#a1a1aa; line-height:1.6;">{{SUMMARY}}</p>
                 </div>
             </div>
             
             <!-- Transcript Flags -->
-            <div class="mb-6">
-                <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider block mb-3 slide-up-delay-2">Transcript Analysis</span>
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="metric-card p-4 slide-up-delay-2">
-                        <span class="text-2xl font-semibold text-zinc-100 block">{{SLURS_COUNT}}</span>
-                        <span class="text-xs text-zinc-500">Slurs</span>
+            <div style="margin-bottom:24px;">
+                <span class="slide-up-delay-2" style="font-size:12px; font-weight:500; color:#71717a; text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:12px;">Transcript Analysis</span>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+                    <div class="metric-card slide-up-delay-2" style="padding:16px;">
+                        <span style="font-size:24px; font-weight:600; color:#fafafa; display:block;">{{SLURS_COUNT}}</span>
+                        <span style="font-size:12px; color:#71717a;">Slurs</span>
                     </div>
-                    <div class="metric-card p-4 slide-up-delay-3">
-                        <span class="text-2xl font-semibold text-zinc-100 block">{{POLICY_FLAGS}}</span>
-                        <span class="text-xs text-zinc-500">Policy Flags</span>
+                    <div class="metric-card slide-up-delay-3" style="padding:16px;">
+                        <span style="font-size:24px; font-weight:600; color:#fafafa; display:block;">{{POLICY_FLAGS}}</span>
+                        <span style="font-size:12px; color:#71717a;">Policy Flags</span>
                     </div>
-                    <div class="metric-card p-4 slide-up-delay-4">
-                        <span class="text-2xl font-semibold text-zinc-100 block">{{PROFANITY_COUNT}}</span>
-                        <span class="text-xs text-zinc-500">Profanity</span>
+                    <div class="metric-card slide-up-delay-4" style="padding:16px;">
+                        <span style="font-size:24px; font-weight:600; color:#fafafa; display:block;">{{PROFANITY_COUNT}}</span>
+                        <span style="font-size:12px; color:#71717a;">Profanity</span>
                     </div>
                 </div>
             </div>
             
             <!-- Comment Sentiment -->
-            <div class="mb-6">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider">Comment Sentiment</span>
-                    <span class="text-sm font-semibold text-zinc-100">{{SENTIMENT_PERCENT}}%</span>
+            <div style="margin-bottom:24px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                    <span style="font-size:12px; font-weight:500; color:#71717a; text-transform:uppercase; letter-spacing:1px;">Comment Sentiment</span>
+                    <span style="font-size:14px; font-weight:600; color:#fafafa;">{{SENTIMENT_PERCENT}}%</span>
                 </div>
                 <div class="sentiment-bar">
                     <div class="sentiment-fill" style="width: 0%" data-target-width="{{SENTIMENT_PERCENT}}%"></div>
@@ -338,36 +299,35 @@
             
             <!-- Flagged Keywords -->
             <div>
-                <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider block mb-3">Flagged Keywords</span>
-                <div class="flex flex-wrap gap-2">
+                <span style="font-size:12px; font-weight:500; color:#71717a; text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:12px;">Flagged Keywords</span>
+                <div style="display:flex; flex-wrap:wrap; gap:8px;">
                     {{KEYWORDS_HTML}}
                 </div>
             </div>
         </div>
         
         <!-- Spacer -->
-        <div class="flex-1"></div>
+        <div style="flex:1;"></div>
         
         <!-- CTA -->
-        <div class="text-center mb-8">
-            <p class="text-lg font-medium text-zinc-300 mb-4 fade-in-delay-3">{{CTA_TEXT}}</p>
-            <div class="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 rounded-lg fade-in-delay-4">
-                <span class="text-sm font-semibold text-white">safe-sponsor-ai.vercel.app</span>
+        <div style="text-align:center; margin-bottom:32px;">
+            <p class="fade-in-delay-3" style="font-size:18px; font-weight:500; color:#d4d4d8; margin-bottom:16px;">{{CTA_TEXT}}</p>
+            <div class="fade-in-delay-4" style="display:inline-flex; align-items:center; gap:8px; padding:12px 24px; background:#16a34a; border-radius:8px;">
+                <span style="font-size:14px; font-weight:600; color:white;">safe-sponsor-ai.vercel.app</span>
             </div>
         </div>
         
         <!-- Footer -->
-        <footer class="flex items-center justify-between pt-6 border-t border-zinc-800/50">
-            <span class="text-xs text-zinc-600">safe-sponsor-ai.vercel.app</span>
-            <div class="flex items-center gap-2">
-                <div class="w-1.5 h-1.5 bg-emerald-500 rounded-full" style="animation: pulse 1.5s ease-in-out infinite"></div>
-                <span class="text-xs text-zinc-500 font-medium">LIVE AUDIT</span>
+        <footer style="display:flex; align-items:center; justify-content:space-between; padding-top:24px; border-top:1px solid rgba(39,39,42,0.5);">
+            <span style="font-size:12px; color:#52525b;">safe-sponsor-ai.vercel.app</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <div style="width:6px; height:6px; background:#22c55e; border-radius:50%; animation: pulse 1.5s ease-in-out infinite;"></div>
+                <span style="font-size:12px; color:#71717a; font-weight:500;">LIVE AUDIT</span>
             </div>
         </footer>
     </div>
     
     <script>
-        // Animate sentiment bar fill
         document.addEventListener('DOMContentLoaded', function() {
             const sentimentFill = document.querySelector('.sentiment-fill');
             if (sentimentFill) {
