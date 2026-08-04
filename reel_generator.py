@@ -173,3 +173,102 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
             os.remove(fp)
 
     return {"reel": reel_path, "sfx_click": click_path, "sfx_transition": transition_path}
+
+
+REEL2_SCENES = {
+    "scene-1": 3.0,
+    "scene-2": 2.0,
+    "scene-3": 2.0,
+    "scene-4": 2.0,
+    "scene-5": 2.0,
+    "scene-6": 3.0,
+    "scene-7": 2.5,
+}
+
+REEL2_MUSIC_START = 45
+
+
+def generate_reel2_how_it_works():
+    output_dir = Path("output")
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    fps = 15
+    frames_dir = output_dir / "reel2_frames"
+    frames_dir.mkdir(parents=True, exist_ok=True)
+
+    template_path = Path("templates/reel2_how_it_works.html").resolve()
+    html_content = template_path.read_text(encoding="utf-8")
+
+    temp_html = frames_dir / "reel2.html"
+    temp_html.write_text(html_content, encoding="utf-8")
+
+    all_frame_paths = []
+    frame_idx = 0
+
+    print(f"  Rendering reel2 scenes to frames at {fps}fps...")
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page(viewport={"width": 1080, "height": 1920})
+        page.goto(f"file:///{temp_html.resolve()}")
+        page.wait_for_load_state("networkidle")
+        page.wait_for_timeout(500)
+
+        scene_index = 0
+        for scene_id, duration in REEL2_SCENES.items():
+            num_frames = int(duration * fps)
+
+            page.evaluate(f"activateScene({scene_index});")
+            page.wait_for_timeout(100)
+
+            for i in range(num_frames):
+                page.wait_for_timeout(int(1000 / fps))
+
+                frame_path = frames_dir / f"frame_{frame_idx:04d}.png"
+                page.screenshot(path=str(frame_path), full_page=False)
+                all_frame_paths.append(str(frame_path))
+                frame_idx += 1
+            scene_index += 1
+
+        page.close()
+        browser.close()
+
+    print(f"  Rendered {len(all_frame_paths)} frames across {len(REEL2_SCENES)} scenes")
+
+    print("  Compositing video with moviepy...")
+
+    video_clips = []
+    for frame_path in all_frame_paths:
+        img_clip = ImageClip(frame_path).with_duration(1.0 / fps)
+        video_clips.append(img_clip)
+
+    final_video = concatenate_videoclips(video_clips, method="compose")
+
+    music_path = Path(r"C:\Users\DELL\Downloads\flashing-lights-128-ytshorts.savetube.me.mp3")
+    if music_path.exists():
+        print("  Adding music track...")
+        music = AudioFileClip(str(music_path))
+        print(f"  Music duration: {music.duration:.1f}s, starting at {REEL2_MUSIC_START}s")
+        music = music.subclipped(REEL2_MUSIC_START, REEL2_MUSIC_START + final_video.duration)
+        final_video = final_video.with_audio(music)
+
+    reel_path = str(output_dir / "safesponsor_reel2_how_it_works.mp4")
+    final_video.write_videofile(
+        reel_path,
+        fps=fps,
+        codec="libx264",
+        audio=True,
+        logger=None,
+    )
+
+    for clip in video_clips:
+        clip.close()
+    final_video.close()
+
+    print(f"  Reel2 saved: {reel_path}")
+
+    for fp in all_frame_paths:
+        if os.path.exists(fp):
+            os.remove(fp)
+
+    return {"reel": reel_path}
