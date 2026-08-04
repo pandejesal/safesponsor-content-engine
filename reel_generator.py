@@ -8,11 +8,13 @@ from moviepy import ImageClip, AudioFileClip, concatenate_videoclips
 
 
 SCENE_DURATIONS = {
-    "scene-1": 2.0,
-    "scene-2": 2.5,
-    "scene-3": 2.5,
-    "scene-4": 2.0,
+    "scene-1": 2.67,
+    "scene-2": 2.67,
+    "scene-3": 2.67,
+    "scene-4": 2.67,
 }
+
+MUSIC_START = 22
 
 
 def generate_tone(frequency=440, duration_ms=100, volume=0.3, fade_ms=20):
@@ -146,9 +148,8 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
     if music_path.exists():
         print("  Adding music track...")
         music = AudioFileClip(str(music_path))
-        music_start = 54
-        music_end = music_start + final_video.duration
-        music = music.subclipped(music_start, music_end)
+        print(f"  Music duration: {music.duration:.1f}s, starting at {MUSIC_START}s")
+        music = music.subclipped(MUSIC_START, MUSIC_START + final_video.duration)
         final_video = final_video.with_audio(music)
 
     reel_path = str(output_dir / "safesponsor_reel.mp4")
