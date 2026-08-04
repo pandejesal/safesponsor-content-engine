@@ -65,10 +65,13 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
 
     if risk_score <= 30:
         recommendation = "Recommended: Sponsor"
+        status_class = "safe"
     elif risk_score <= 60:
         recommendation = "Caution: Review Required"
+        status_class = "caution"
     else:
         recommendation = "Not Recommended"
+        status_class = "risky"
 
     fps = 15
     frames_dir = output_dir / "safesponsor_frames"
@@ -82,6 +85,7 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
     html_content = html_content.replace("{{POLICY_FLAGS}}", str(policy_flags))
     html_content = html_content.replace("{{PROFANITY_COUNT}}", str(profanity_count))
     html_content = html_content.replace("{{RECOMMENDATION}}", recommendation)
+    html_content = html_content.replace("{{STATUS_CLASS}}", status_class)
     html_content = html_content.replace("{{VIDEO_TITLE}}", audience_alignment[:100])
     html_content = html_content.replace("{{SENTIMENT_PERCENT}}", str(comment_sentiment))
     html_content = html_content.replace("{{SUMMARY}}", summary[:150])
@@ -105,7 +109,7 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
         for scene_id, duration in SCENE_DURATIONS.items():
             num_frames = int(duration * fps)
 
-            page.evaluate(f"showScene({scene_index});")
+            page.evaluate(f"activateScene({scene_index});")
             page.wait_for_timeout(100)
 
             for i in range(num_frames):
