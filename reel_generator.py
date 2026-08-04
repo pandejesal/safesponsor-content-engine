@@ -66,79 +66,6 @@ def create_sfx_wav(path):
         f.writeframes(struct.pack(f"<{len(samples)}h", *samples))
 
 
-def build_full_html(
-    risk_score, risk_status, status_class, summary,
-    gauge_color, gauge_degrees, video_title,
-    slurs_count, policy_flags, profanity_count,
-    comment_sentiment, keywords_html, cta_text
-):
-    return f"""<!DOCTYPE html>
-<html><head><meta charset="UTF-8"><style>
-*{{margin:0;padding:0;box-sizing:border-box;}}
-body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;width:1080px;height:1920px;background:#09090b;overflow:hidden;}}
-.audit-card{{background:#18181b;border:1px solid #27272a;border-radius:16px;}}
-.metric-card{{background:#09090b;border:1px solid #27272a;border-radius:12px;}}
-.gauge-ring{{width:200px;height:200px;border-radius:50%;background:conic-gradient(from 180deg,{gauge_color} 0deg,{gauge_color} {gauge_degrees}deg,#27272a {gauge_degrees}deg,#27272a 360deg);display:flex;align-items:center;justify-content:center;}}
-.gauge-inner{{width:160px;height:160px;border-radius:50%;background:#18181b;display:flex;flex-direction:column;align-items:center;justify-content:center;}}
-.gauge-value{{font-size:48px;font-weight:600;color:#fafafa;line-height:1;}}
-.gauge-label{{font-size:12px;font-weight:500;color:#71717a;text-transform:uppercase;letter-spacing:1px;margin-top:4px;}}
-.status-badge{{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:6px;font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px;}}
-.status-low{{background:rgba(34,197,94,0.1);color:#22c55e;border:1px solid rgba(34,197,94,0.2);}}
-.status-medium{{background:rgba(234,179,8,0.1);color:#eab308;border:1px solid rgba(234,179,8,0.2);}}
-.status-high{{background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2);}}
-.status-dot{{width:6px;height:6px;border-radius:50%;background:currentColor;}}
-.sentiment-bar{{height:4px;background:#27272a;border-radius:2px;overflow:hidden;}}
-.sentiment-fill{{height:100%;background:#22c55e;border-radius:2px;width:{comment_sentiment}%;}}
-.keyword-pill{{display:inline-flex;align-items:center;padding:3px 10px;border-radius:9999px;font-size:12px;font-weight:500;background:#27272a;color:#d4d4d8;border:1px solid #3f3f46;}}
-.anim{{opacity:0;transform:translateY(20px);transition:opacity 0.5s ease-out, transform 0.5s ease-out;}}
-.anim.visible{{opacity:1;transform:translateY(0);}}
-@keyframes pulse{{0%,100%{{opacity:1;}}50%{{opacity:0.5;}}}}
-</style></head><body>
-<div style="display:flex;flex-direction:column;height:100%;padding:48px;">
-<header id="sec-header" class="anim" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:40px;">
-<div style="display:flex;align-items:center;gap:12px;">
-<div style="width:32px;height:32px;background:#22c55e;border-radius:8px;display:flex;align-items:center;justify-content:center;">
-<svg style="width:20px;height:20px;color:white;" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg></div>
-<span style="font-size:18px;font-weight:600;color:#fafafa;">SafeSponsor AI</span></div>
-<span style="font-size:12px;font-weight:500;color:#71717a;text-transform:uppercase;letter-spacing:2px;">Sponsorship Vetting</span></header>
-<div id="sec-card" class="anim" style="padding:32px;margin-bottom:24px;">
-<div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid #27272a;">
-<span style="font-size:12px;font-weight:500;color:#71717a;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:8px;">Analyzing</span>
-<h2 style="font-size:20px;font-weight:500;color:#fafafa;line-height:1.4;">{video_title}</h2></div>
-<div style="display:flex;align-items:center;gap:32px;margin-bottom:24px;">
-<div id="sec-score" class="anim" style="flex-shrink:0;">
-<div class="gauge-ring">
-<div class="gauge-inner"><span class="gauge-value">{risk_score}</span><span class="gauge-label">Risk Score</span></div></div></div>
-<div style="flex:1;">
-<div style="margin-bottom:16px;"><span class="status-badge {status_class}"><span class="status-dot"></span>{risk_status}</span></div>
-<p style="font-size:14px;color:#a1a1aa;line-height:1.6;">{summary[:150]}</p></div></div>
-<div id="sec-flags" class="anim" style="margin-bottom:24px;">
-<span style="font-size:12px;font-weight:500;color:#71717a;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:12px;">Transcript Analysis</span>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
-<div class="metric-card" style="padding:16px;"><span style="font-size:24px;font-weight:600;color:#fafafa;display:block;">{slurs_count}</span><span style="font-size:12px;color:#71717a;">Slurs</span></div>
-<div class="metric-card" style="padding:16px;"><span style="font-size:24px;font-weight:600;color:#fafafa;display:block;">{policy_flags}</span><span style="font-size:12px;color:#71717a;">Policy Flags</span></div>
-<div class="metric-card" style="padding:16px;"><span style="font-size:24px;font-weight:600;color:#fafafa;display:block;">{profanity_count}</span><span style="font-size:12px;color:#71717a;">Profanity</span></div></div></div>
-<div id="sec-sentiment" class="anim" style="margin-bottom:24px;">
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-<span style="font-size:12px;font-weight:500;color:#71717a;text-transform:uppercase;letter-spacing:1px;">Comment Sentiment</span>
-<span style="font-size:14px;font-weight:600;color:#fafafa;">{comment_sentiment}%</span></div>
-<div class="sentiment-bar"><div class="sentiment-fill"></div></div></div>
-<div id="sec-keywords" class="anim">
-<span style="font-size:12px;font-weight:500;color:#71717a;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:12px;">Flagged Keywords</span>
-<div style="display:flex;flex-wrap:wrap;gap:8px;">{keywords_html}</div></div></div>
-<div style="flex:1;"></div>
-<div id="sec-cta" class="anim" style="text-align:center;margin-bottom:32px;">
-<p style="font-size:18px;font-weight:500;color:#d4d4d8;margin-bottom:16px;">{cta_text}</p>
-<div style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:#16a34a;border-radius:8px;">
-<span style="font-size:14px;font-weight:600;color:white;">safe-sponsor-ai.vercel.app</span></div></div>
-<footer id="sec-footer" class="anim" style="display:flex;align-items:center;justify-content:space-between;padding-top:24px;border-top:1px solid rgba(39,39,42,0.5);">
-<span style="font-size:12px;color:#52525b;">safe-sponsor-ai.vercel.app</span>
-<div style="display:flex;align-items:center;gap:8px;">
-<div style="width:6px;height:6px;background:#22c55e;border-radius:50%;animation:pulse 1.5s ease-in-out infinite;"></div>
-<span style="font-size:12px;color:#71717a;font-weight:500;">LIVE AUDIT</span></div></footer>
-</div></body></html>"""
-
-
 def generate_safesponsor_reel(reel_script_data, analysis_data):
     output_dir = Path("output")
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -171,16 +98,21 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
     frames_dir = output_dir / "safesponsor_frames"
     frames_dir.mkdir(parents=True, exist_ok=True)
 
-    html_content = build_full_html(
-        risk_score=risk_score, risk_status=risk_status,
-        status_class=status_class, summary=summary,
-        gauge_color=gauge_color, gauge_degrees=gauge_degrees,
-        video_title=video_title,
-        slurs_count=slurs_count, policy_flags=policy_flags,
-        profanity_count=profanity_count,
-        comment_sentiment=comment_sentiment, keywords_html=keywords_html,
-        cta_text=cta_text
-    )
+    template_path = Path("templates/safesponsor_reel.html").resolve()
+    html_content = template_path.read_text(encoding="utf-8")
+
+    html_content = html_content.replace("{{VIDEO_TITLE}}", video_title)
+    html_content = html_content.replace("{{RISK_SCORE}}", str(risk_score))
+    html_content = html_content.replace("{{RISK_STATUS}}", risk_status)
+    html_content = html_content.replace("{{STATUS_CLASS}}", status_class)
+    html_content = html_content.replace("{{SUMMARY}}", summary[:150])
+    html_content = html_content.replace("{{GAUGE_COLOR}}", gauge_color)
+    html_content = html_content.replace("{{GAUGE_DEGREES}}", str(gauge_degrees))
+    html_content = html_content.replace("{{SLURS_COUNT}}", str(slurs_count))
+    html_content = html_content.replace("{{POLICY_FLAGS}}", str(policy_flags))
+    html_content = html_content.replace("{{PROFANITY_COUNT}}", str(profanity_count))
+    html_content = html_content.replace("{{SENTIMENT_PERCENT}}", str(comment_sentiment))
+    html_content = html_content.replace("{{KEYWORDS_HTML}}", keywords_html)
 
     temp_html = frames_dir / "reel.html"
     temp_html.write_text(html_content, encoding="utf-8")

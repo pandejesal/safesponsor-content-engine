@@ -11,28 +11,29 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
             width: 1080px;
             height: 1920px;
             background: #09090b;
             overflow: hidden;
+            color: #fafafa;
         }
         
-        .audit-card {
+        .card {
             background: #18181b;
-            border: 1px solid #27272a;
-            border-radius: 16px;
-        }
-        
-        .metric-card {
-            background: #09090b;
             border: 1px solid #27272a;
             border-radius: 12px;
         }
         
+        .card-elevated {
+            background: #09090b;
+            border: 1px solid #27272a;
+            border-radius: 10px;
+        }
+        
         .gauge-ring {
-            width: 200px;
-            height: 200px;
+            width: 220px;
+            height: 220px;
             border-radius: 50%;
             background: conic-gradient(
                 from 180deg,
@@ -44,11 +45,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 0 40px rgba(6, 182, 212, 0.15);
         }
         
         .gauge-inner {
-            width: 160px;
-            height: 160px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             background: #18181b;
             display: flex;
@@ -58,249 +60,186 @@
         }
         
         .gauge-value {
-            font-size: 48px;
-            font-weight: 600;
+            font-size: 56px;
+            font-weight: 900;
             color: #fafafa;
             line-height: 1;
         }
         
         .gauge-label {
-            font-size: 12px;
-            font-weight: 500;
+            font-size: 11px;
+            font-weight: 700;
             color: #71717a;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 4px;
+            letter-spacing: 1.5px;
+            margin-top: 6px;
         }
         
         .status-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 500;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         
         .status-low {
-            background: rgba(34, 197, 94, 0.1);
-            color: #22c55e;
-            border: 1px solid rgba(34, 197, 94, 0.2);
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
         
         .status-medium {
-            background: rgba(234, 179, 8, 0.1);
-            color: #eab308;
-            border: 1px solid rgba(234, 179, 8, 0.2);
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
         }
         
         .status-high {
-            background: rgba(239, 68, 68, 0.1);
+            background: rgba(239, 68, 68, 0.15);
             color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
         
         .status-dot {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: currentColor;
         }
         
         .sentiment-bar {
-            height: 4px;
+            height: 8px;
             background: #27272a;
-            border-radius: 2px;
+            border-radius: 4px;
             overflow: hidden;
         }
         
         .sentiment-fill {
             height: 100%;
-            background: #22c55e;
-            border-radius: 2px;
-            transition: width 1s ease-out;
+            background: linear-gradient(90deg, #06b6d4, #10b981);
+            border-radius: 4px;
+            width: {{SENTIMENT_PERCENT}}%;
         }
         
         .keyword-pill {
             display: inline-flex;
             align-items: center;
-            padding: 3px 10px;
-            border-radius: 9999px;
-            font-size: 12px;
-            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
             background: #27272a;
             color: #d4d4d8;
             border: 1px solid #3f3f46;
         }
         
-        .fade-in {
+        .anim {
             opacity: 0;
-            animation: fadeIn 0.6s ease-out forwards;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
         
-        .fade-in-delay-1 {
-            opacity: 0;
-            animation: fadeIn 0.6s ease-out 0.3s forwards;
-        }
-        
-        .fade-in-delay-2 {
-            opacity: 0;
-            animation: fadeIn 0.6s ease-out 0.6s forwards;
-        }
-        
-        .fade-in-delay-3 {
-            opacity: 0;
-            animation: fadeIn 0.6s ease-out 0.9s forwards;
-        }
-        
-        .fade-in-delay-4 {
-            opacity: 0;
-            animation: fadeIn 0.6s ease-out 1.2s forwards;
-        }
-        
-        .slide-up {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideUp 0.7s ease-out forwards;
-        }
-        
-        .slide-up-delay-1 {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideUp 0.7s ease-out 0.2s forwards;
-        }
-        
-        .slide-up-delay-2 {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideUp 0.7s ease-out 0.4s forwards;
-        }
-        
-        .slide-up-delay-3 {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideUp 0.7s ease-out 0.6s forwards;
-        }
-        
-        .scale-in {
-            opacity: 0;
-            transform: scale(0.8);
-            animation: scaleIn 0.6s ease-out forwards;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes scaleIn {
-            from { 
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+        .anim.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
     </style>
 </head>
 <body>
-    <div style="display:flex; flex-direction:column; height:100%; padding:48px;">
+    <div style="display:flex; flex-direction:column; height:100%; padding:48px 40px;">
         <!-- Header -->
-        <header style="display:flex; align-items:center; justify-content:space-between; margin-bottom:40px;" class="fade-in">
+        <header id="sec-header" class="anim" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:40px;">
             <div style="display:flex; align-items:center; gap:12px;">
-                <div style="width:32px; height:32px; background:#22c55e; border-radius:8px; display:flex; align-items:center; justify-content:center;">
-                    <svg style="width:20px; height:20px; color:white;" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                <div style="width:36px; height:36px; background:linear-gradient(135deg, #06b6d4, #0891b2); border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow: 0 0 20px rgba(6,182,212,0.3);">
+                    <svg style="width:20px; height:20px; color:white;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                        <path d="m9 12 2 2 4-4"/>
                     </svg>
                 </div>
-                <span style="font-size:18px; font-weight:600; color:#fafafa;">SafeSponsor AI</span>
+                <span style="font-size:20px; font-weight:800; color:#fafafa; letter-spacing:-0.5px;">SafeSponsor AI</span>
             </div>
-            <span style="font-size:12px; font-weight:500; color:#71717a; text-transform:uppercase; letter-spacing:2px;">Sponsorship Vetting</span>
+            <span style="font-size:11px; font-weight:700; color:#06b6d4; text-transform:uppercase; letter-spacing:2px; padding:6px 14px; background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.3); border-radius:6px;">AI-Powered Audit</span>
         </header>
         
         <!-- Audit Card -->
-        <div class="audit-card fade-in-delay-1" style="padding:32px; margin-bottom:24px;">
+        <div id="sec-card" class="anim" style="padding:36px; margin-bottom:24px;">
             <!-- Video Title -->
-            <div style="margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid #27272a;">
-                <span style="font-size:12px; font-weight:500; color:#71717a; text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:8px;">Analyzing</span>
-                <h2 style="font-size:20px; font-weight:500; color:#fafafa; line-height:1.4;">{{VIDEO_TITLE}}</h2>
+            <div style="margin-bottom:28px; padding-bottom:24px; border-bottom:1px solid #27272a;">
+                <span style="font-size:11px; font-weight:700; color:#06b6d4; text-transform:uppercase; letter-spacing:1.5px; display:block; margin-bottom:10px;">Analyzing Creator</span>
+                <h2 style="font-size:22px; font-weight:700; color:#fafafa; line-height:1.4; letter-spacing:-0.3px;">{{VIDEO_TITLE}}</h2>
             </div>
             
             <!-- Score Section -->
-            <div style="display:flex; align-items:center; gap:32px; margin-bottom:24px;">
-                <div class="gauge-ring scale-in">
-                    <div class="gauge-inner">
-                        <span class="gauge-value">{{RISK_SCORE}}</span>
-                        <span class="gauge-label">Risk Score</span>
+            <div style="display:flex; align-items:center; gap:36px; margin-bottom:28px;">
+                <div id="sec-score" class="anim" style="flex-shrink:0;">
+                    <div class="gauge-ring">
+                        <div class="gauge-inner">
+                            <span class="gauge-value">{{RISK_SCORE}}</span>
+                            <span class="gauge-label">Risk Score</span>
+                        </div>
                     </div>
                 </div>
                 
                 <div style="flex:1;">
-                    <div class="slide-up" style="margin-bottom:16px;">
+                    <div style="margin-bottom:16px;">
                         <span class="status-badge {{STATUS_CLASS}}">
                             <span class="status-dot"></span>
                             {{RISK_STATUS}}
                         </span>
                     </div>
-                    <p class="slide-up-delay-1" style="font-size:14px; color:#a1a1aa; line-height:1.6;">{{SUMMARY}}</p>
+                    <p style="font-size:15px; color:#a1a1aa; line-height:1.7; font-weight:500;">{{SUMMARY}}</p>
                 </div>
             </div>
             
             <!-- Transcript Flags -->
-            <div style="margin-bottom:24px;">
-                <span class="slide-up-delay-2" style="font-size:12px; font-weight:500; color:#71717a; text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:12px;">Transcript Analysis</span>
-                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
-                    <div class="metric-card slide-up-delay-2" style="padding:16px;">
-                        <span style="font-size:24px; font-weight:600; color:#fafafa; display:block;">{{SLURS_COUNT}}</span>
-                        <span style="font-size:12px; color:#71717a;">Slurs</span>
+            <div id="sec-flags" class="anim" style="margin-bottom:28px;">
+                <span style="font-size:11px; font-weight:700; color:#71717a; text-transform:uppercase; letter-spacing:1.5px; display:block; margin-bottom:14px;">Transcript Analysis</span>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px;">
+                    <div class="card-elevated" style="padding:20px;">
+                        <span style="font-size:28px; font-weight:900; color:#fafafa; display:block;">{{SLURS_COUNT}}</span>
+                        <span style="font-size:12px; color:#71717a; font-weight:600;">Slurs</span>
                     </div>
-                    <div class="metric-card slide-up-delay-3" style="padding:16px;">
-                        <span style="font-size:24px; font-weight:600; color:#fafafa; display:block;">{{POLICY_FLAGS}}</span>
-                        <span style="font-size:12px; color:#71717a;">Policy Flags</span>
+                    <div class="card-elevated" style="padding:20px;">
+                        <span style="font-size:28px; font-weight:900; color:#fafafa; display:block;">{{POLICY_FLAGS}}</span>
+                        <span style="font-size:12px; color:#71717a; font-weight:600;">Policy Flags</span>
                     </div>
-                    <div class="metric-card slide-up-delay-4" style="padding:16px;">
-                        <span style="font-size:24px; font-weight:600; color:#fafafa; display:block;">{{PROFANITY_COUNT}}</span>
-                        <span style="font-size:12px; color:#71717a;">Profanity</span>
+                    <div class="card-elevated" style="padding:20px;">
+                        <span style="font-size:28px; font-weight:900; color:#fafafa; display:block;">{{PROFANITY_COUNT}}</span>
+                        <span style="font-size:12px; color:#71717a; font-weight:600;">Profanity</span>
                     </div>
                 </div>
             </div>
             
             <!-- Comment Sentiment -->
-            <div style="margin-bottom:24px;">
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-                    <span style="font-size:12px; font-weight:500; color:#71717a; text-transform:uppercase; letter-spacing:1px;">Comment Sentiment</span>
-                    <span style="font-size:14px; font-weight:600; color:#fafafa;">{{SENTIMENT_PERCENT}}%</span>
+            <div id="sec-sentiment" class="anim" style="margin-bottom:28px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                    <span style="font-size:11px; font-weight:700; color:#71717a; text-transform:uppercase; letter-spacing:1.5px;">Comment Sentiment</span>
+                    <span style="font-size:16px; font-weight:800; color:#06b6d4;">{{SENTIMENT_PERCENT}}%</span>
                 </div>
                 <div class="sentiment-bar">
-                    <div class="sentiment-fill" style="width: 0%" data-target-width="{{SENTIMENT_PERCENT}}%"></div>
+                    <div class="sentiment-fill"></div>
                 </div>
             </div>
             
             <!-- Flagged Keywords -->
-            <div>
-                <span style="font-size:12px; font-weight:500; color:#71717a; text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:12px;">Flagged Keywords</span>
-                <div style="display:flex; flex-wrap:wrap; gap:8px;">
+            <div id="sec-keywords" class="anim">
+                <span style="font-size:11px; font-weight:700; color:#71717a; text-transform:uppercase; letter-spacing:1.5px; display:block; margin-bottom:12px;">Flagged Keywords</span>
+                <div style="display:flex; flex-wrap:wrap; gap:10px;">
                     {{KEYWORDS_HTML}}
                 </div>
             </div>
@@ -310,33 +249,31 @@
         <div style="flex:1;"></div>
         
         <!-- CTA -->
-        <div style="text-align:center; margin-bottom:32px;">
-            <p class="fade-in-delay-3" style="font-size:18px; font-weight:500; color:#d4d4d8; margin-bottom:16px;">{{CTA_TEXT}}</p>
-            <div class="fade-in-delay-4" style="display:inline-flex; align-items:center; gap:8px; padding:12px 24px; background:#16a34a; border-radius:8px;">
-                <span style="font-size:14px; font-weight:600; color:white;">safe-sponsor-ai.vercel.app</span>
+        <div id="sec-cta" class="anim" style="text-align:center; margin-bottom:32px;">
+            <p style="font-size:18px; font-weight:600; color:#d4d4d8; margin-bottom:18px;">Run a free creator safety audit</p>
+            <div style="display:inline-flex; align-items:center; gap:10px; padding:14px 32px; background:linear-gradient(135deg, #ea580c, #f97316); border-radius:12px; box-shadow: 0 0 30px rgba(249,115,22,0.3);">
+                <svg style="width:18px; height:18px; color:white;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                </svg>
+                <span style="font-size:15px; font-weight:700; color:white;">safe-sponsor-ai.vercel.app</span>
             </div>
         </div>
         
         <!-- Footer -->
-        <footer style="display:flex; align-items:center; justify-content:space-between; padding-top:24px; border-top:1px solid rgba(39,39,42,0.5);">
-            <span style="font-size:12px; color:#52525b;">safe-sponsor-ai.vercel.app</span>
+        <footer id="sec-footer" class="anim" style="display:flex; align-items:center; justify-content:space-between; padding-top:24px; border-top:1px solid #27272a;">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <svg style="width:16px; height:16px; color:#06b6d4;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                </svg>
+                <span style="font-size:13px; font-weight:700; color:#fafafa;">SafeSponsor AI</span>
+            </div>
             <div style="display:flex; align-items:center; gap:8px;">
-                <div style="width:6px; height:6px; background:#22c55e; border-radius:50%; animation: pulse 1.5s ease-in-out infinite;"></div>
-                <span style="font-size:12px; color:#71717a; font-weight:500;">LIVE AUDIT</span>
+                <div style="width:8px; height:8px; background:#06b6d4; border-radius:50%; animation:pulse 1.5s ease-in-out infinite; box-shadow: 0 0 10px rgba(6,182,212,0.5);"></div>
+                <span style="font-size:11px; color:#71717a; font-weight:700; text-transform:uppercase; letter-spacing:1px;">LIVE AUDIT</span>
             </div>
         </footer>
     </div>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const sentimentFill = document.querySelector('.sentiment-fill');
-            if (sentimentFill) {
-                const targetWidth = sentimentFill.getAttribute('data-target-width');
-                setTimeout(() => {
-                    sentimentFill.style.width = targetWidth;
-                }, 500);
-            }
-        });
-    </script>
 </body>
 </html>
