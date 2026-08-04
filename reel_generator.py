@@ -10,7 +10,7 @@ from moviepy import (
 )
 
 
-async def generate_voiceover_with_timestamps(text: str, output_path: str, voice: str = "en-US-GuyNeural"):
+async def generate_voiceover_with_timestamps(text: str, output_path: str, voice: str = "en-US-AndrewNeural"):
     """Generate AI voiceover and return word timestamps."""
     communicate = edge_tts.Communicate(text, voice)
     word_timestamps = []
@@ -149,12 +149,13 @@ def generate_safesponsor_reel(reel_script_data: dict, analysis_data: dict) -> di
     summary = analysis_data.get("summary", "Analysis complete.")
     transcript_flags = analysis_data.get("transcript_flags", {})
     comment_sentiment = analysis_data.get("comment_sentiment", 88)
+    audience_alignment = analysis_data.get("audience_alignment", "General audience")
     
     slurs_count = transcript_flags.get("slurs_count", 0)
     policy_flags = transcript_flags.get("policy_flags_count", 0)
     profanity_count = transcript_flags.get("profanity_count", 0)
     
-    video_title = summary[:100] if summary else "Video Analysis"
+    video_title = audience_alignment[:100] if audience_alignment else "Creator Analysis"
     
     gauge_color = get_gauge_color(risk_score)
     gauge_degrees = get_gauge_degrees(risk_score)

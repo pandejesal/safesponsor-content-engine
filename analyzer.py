@@ -6,47 +6,48 @@ def analyze_transcript(transcript: str, api_key: str) -> dict:
     """Analyze transcript using Gemini AI for brand safety and content generation."""
     client = genai.Client(api_key=api_key)
     
-    prompt = f"""You are SafeSponsor AI, a professional brand safety intelligence platform for sponsorships.
+    prompt = f"""You are SafeSponsor AI, a creator brand safety and sponsorship vetting platform.
 
-Analyze the following YouTube video transcript and provide a comprehensive brand safety audit.
+Analyze the following YouTube video transcript and provide a comprehensive sponsorship suitability assessment.
 
 TONE REQUIREMENTS:
-- Calm, articulate, professional, data-driven
-- Like a product demo for marketing executives and professional creators
-- NO hype words (no "insane", "mindblowing", "you won't believe", "stop scrolling")
-- Focus on real metrics: Brand Safety Risk Score, Transcript Keyword Flags, Sponsorship Suitability
+- Professional, data-driven, objective
+- Like a vetting report for marketing executives evaluating creator partnerships
+- NO hype words or clickbait language
+- Focus on actionable metrics: Risk Score, Content Flags, Audience Safety, Sponsorship Readiness
 
-1. BRAND SAFETY ASSESSMENT:
-   - risk_score: Integer 0-100 (0 = completely safe, 100 = extremely risky)
+1. SPONSORSHIP VETTING ASSESSMENT:
+   - risk_score: Integer 0-100 (0 = fully safe for sponsorship, 100 = high risk)
    - risk_level: "LOW" (0-30), "MEDIUM" (31-60), or "HIGH" (61-100)
-   - summary: Professional 2-sentence explanation of the risk assessment
-   - flagged_keywords: Array of problematic words/phrases found (max 5)
+   - summary: 2-sentence professional assessment of sponsorship suitability
+   - flagged_keywords: Array of potentially problematic terms found (max 5)
    - transcript_flags: Object with slurs_count, policy_flags_count, profanity_count
-   - comment_sentiment: Estimated percentage of positive sentiment (integer 0-100)
+   - comment_sentiment: Estimated positive sentiment percentage (integer 0-100)
    - sponsorship_suitability: "RECOMMENDED", "CAUTION", or "NOT RECOMMENDED"
+   - audience_alignment: Description of typical audience demographic fit
 
-2. CONTENT REPLICATION (based on the video's message):
+2. CONTENT REPLICATION (professional creator economy content):
    - linkedin_carousel: Array of 5 slide objects, each with:
      * slide: slide number (1-5)
-     * title: slide headline (professional, data-focused)
-     * body: slide content (2-3 sentences, informative)
-   - twitter_thread: Array of 4 tweet strings (each under 280 chars, professional tone)
-   - instagram_caption: Professional caption with minimal emojis, industry hashtags
+     * title: Data-focused headline
+     * body: Informative content (2-3 sentences)
+   - twitter_thread: Array of 4 tweet strings (under 280 chars, industry tone)
+   - instagram_caption: Professional caption with minimal emojis, B2B hashtags
 
-3. VIDEO REEL SCRIPT (for a 25-second vertical video audit report):
+3. VIDEO REEL SCRIPT (25-second sponsorship audit):
    - reel_script: Object with:
-     * hook: Calm, industry-relevant problem statement (0-5s). Example: "Brand safety risk assessment for this channel."
-     * body: Objective analysis of transcript flags, sentiment, and risk score (5-20s). Include specific numbers.
-     * cta: Clean call-to-action inviting brands or creators to run a free audit at safe-sponsor-ai.vercel.app (20-25s)
+     * hook: Professional context statement (0-5s). Example: "Creator sponsorship vetting report for this channel."
+     * body: Objective data analysis with specific metrics (5-20s)
+     * cta: Clean CTA for brands/creators to run free audit at safe-sponsor-ai.vercel.app (20-25s)
 
 TRANSCRIPT:
 {transcript}
 
-Return ONLY valid JSON in this exact format (no markdown, no extra text):
+Return ONLY valid JSON in this exact format:
 {{
   "risk_score": 12,
   "risk_level": "LOW",
-  "summary": "This channel demonstrates strong brand safety metrics. Transcript analysis reveals minimal risk factors suitable for most sponsorship categories.",
+  "summary": "This creator channel demonstrates strong brand safety metrics suitable for enterprise sponsorship. Transcript analysis reveals minimal risk factors across all evaluated categories.",
   "flagged_keywords": [],
   "transcript_flags": {{
     "slurs_count": 0,
@@ -55,6 +56,7 @@ Return ONLY valid JSON in this exact format (no markdown, no extra text):
   }},
   "comment_sentiment": 88,
   "sponsorship_suitability": "RECOMMENDED",
+  "audience_alignment": "General audience with family-friendly content preferences",
   "linkedin_carousel": [
     {{"slide": 1, "title": "...", "body": "..."}},
     {{"slide": 2, "title": "...", "body": "..."}},
@@ -65,9 +67,9 @@ Return ONLY valid JSON in this exact format (no markdown, no extra text):
   "twitter_thread": ["...", "...", "...", "..."],
   "instagram_caption": "...",
   "reel_script": {{
-    "hook": "Brand safety risk assessment for this channel.",
-    "body": "Transcript analysis identified zero policy violations and zero profanity flags. The overall risk score is 12 out of 100, with an estimated 88 percent positive comment sentiment. Sponsorship suitability is recommended.",
-    "cta": "Run a free brand safety audit at safe-sponsor-ai.vercel.app"
+    "hook": "Creator sponsorship vetting report for this channel.",
+    "body": "Transcript analysis identified zero policy violations and zero profanity. The overall brand safety score is 12 out of 100, with 88 percent positive audience sentiment. This creator is recommended for standard sponsorship campaigns.",
+    "cta": "Run a free creator safety audit at safe-sponsor-ai.vercel.app"
   }}
 }}"""
     
