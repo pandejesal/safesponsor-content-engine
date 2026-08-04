@@ -4,7 +4,7 @@ import wave
 import struct
 from pathlib import Path
 from playwright.sync_api import sync_playwright
-from moviepy import ImageClip, concatenate_videoclips
+from moviepy import ImageClip, AudioFileClip, concatenate_videoclips
 
 
 SCENE_DURATIONS = {
@@ -142,12 +142,21 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
 
     final_video = concatenate_videoclips(video_clips, method="compose")
 
+    music_path = Path(r"C:\Users\DELL\Downloads\flashing-lights-128-ytshorts.savetube.me.mp3")
+    if music_path.exists():
+        print("  Adding music track...")
+        music = AudioFileClip(str(music_path))
+        video_duration = final_video.duration
+        if music.duration > video_duration:
+            music = music.subclipped(0, video_duration)
+        final_video = final_video.with_audio(music)
+
     reel_path = str(output_dir / "safesponsor_reel.mp4")
     final_video.write_videofile(
         reel_path,
         fps=fps,
         codec="libx264",
-        audio=False,
+        audio=True,
         logger=None,
     )
 
