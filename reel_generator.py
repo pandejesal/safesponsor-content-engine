@@ -7,38 +7,12 @@ from playwright.sync_api import sync_playwright
 from moviepy import ImageClip, concatenate_videoclips
 
 
-def get_gauge_color(score):
-    if score >= 70:
-        return "#10b981"
-    elif score >= 40:
-        return "#f59e0b"
-    return "#ef4444"
-
-
-def get_gauge_degrees(score):
-    return int((score / 100) * 360)
-
-
-def get_risk_status(score):
-    if score >= 70:
-        return "LOW"
-    elif score >= 40:
-        return "MEDIUM"
-    return "HIGH"
-
-
-def get_status_class(score):
-    if score >= 70:
-        return "status-low"
-    elif score >= 40:
-        return "status-medium"
-    return "status-high"
-
-
-def generate_keyword_pills(keywords):
-    if not keywords:
-        return '<span class="keyword-pill">No flags</span>'
-    return "".join(f'<span class="keyword-pill">{kw}</span>' for kw in keywords[:5])
+SCENE_DURATIONS = {
+    "scene-1": 2.0,
+    "scene-2": 2.5,
+    "scene-3": 2.5,
+    "scene-4": 2.0,
+}
 
 
 def generate_tone(frequency=440, duration_ms=100, volume=0.3, fade_ms=20):
@@ -57,8 +31,17 @@ def generate_tone(frequency=440, duration_ms=100, volume=0.3, fade_ms=20):
     return samples
 
 
-def create_sfx_wav(path):
-    samples = generate_tone(800, 40, 0.2, 10)
+def create_sfx_wav(path, frequency=800, duration_ms=40, volume=0.2):
+    samples = generate_tone(frequency, duration_ms, volume, 10)
+    with wave.open(path, "w") as f:
+        f.setnchannels(1)
+        f.setsampwidth(2)
+        f.setframerate(22050)
+        f.writeframes(struct.pack(f"<{len(samples)}h", *samples))
+
+
+def create_transition_sfx(path):
+    samples = generate_tone(600, 60, 0.15, 15)
     with wave.open(path, "w") as f:
         f.setnchannels(1)
         f.setsampwidth(2)
@@ -71,23 +54,14 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
     output_dir.mkdir(parents=True, exist_ok=True)
 
     risk_score = analysis_data.get("risk_score", 0)
-    flagged_keywords = analysis_data.get("flagged_keywords", [])
     summary = analysis_data.get("summary", "Analysis complete.")
-    comment_sentiment = analysis_data.get("comment_sentiment", 88)
     audience_alignment = analysis_data.get("audience_alignment", "Creator Analysis")
+    comment_sentiment = analysis_data.get("comment_sentiment", 88)
 
     transcript_flags = analysis_data.get("transcript_flags", {})
     slurs_count = transcript_flags.get("slurs_count", 0)
     policy_flags = transcript_flags.get("policy_flags_count", 0)
     profanity_count = transcript_flags.get("profanity_count", 0)
-
-    video_title = audience_alignment[:100] if audience_alignment else "Creator Analysis"
-    gauge_color = get_gauge_color(risk_score)
-    gauge_degrees = get_gauge_degrees(risk_score)
-    risk_status = get_risk_status(risk_score)
-    status_class = get_status_class(risk_score)
-    keywords_html = generate_keyword_pills(flagged_keywords)
-    cta_text = "Run a free creator safety audit"
 
     if risk_score <= 30:
         recommendation = "Recommended: Sponsor"
@@ -96,89 +70,68 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
     else:
         recommendation = "Not Recommended"
 
-    audience_demo = audience_alignment[:80] if audience_alignment else "General audience"
-
     fps = 15
-    total_duration = 8.0
-    total_frames = int(total_duration * fps)
-
-    print(f"  Rendering {total_frames} frames at {fps}fps with Playwright...")
-
     frames_dir = output_dir / "safesponsor_frames"
     frames_dir.mkdir(parents=True, exist_ok=True)
 
     template_path = Path("templates/safesponsor_reel.html").resolve()
     html_content = template_path.read_text(encoding="utf-8")
 
-    html_content = html_content.replace("{{VIDEO_TITLE}}", video_title)
     html_content = html_content.replace("{{RISK_SCORE}}", str(risk_score))
-    html_content = html_content.replace("{{RISK_STATUS}}", risk_status)
-    html_content = html_content.replace("{{STATUS_CLASS}}", status_class)
-    html_content = html_content.replace("{{SUMMARY}}", summary[:150])
-    html_content = html_content.replace("{{GAUGE_COLOR}}", gauge_color)
-    html_content = html_content.replace("{{GAUGE_DEGREES}}", str(gauge_degrees))
     html_content = html_content.replace("{{SLURS_COUNT}}", str(slurs_count))
     html_content = html_content.replace("{{POLICY_FLAGS}}", str(policy_flags))
     html_content = html_content.replace("{{PROFANITY_COUNT}}", str(profanity_count))
-    html_content = html_content.replace("{{SENTIMENT_PERCENT}}", str(comment_sentiment))
-    html_content = html_content.replace("{{KEYWORDS_HTML}}", keywords_html)
     html_content = html_content.replace("{{RECOMMENDATION}}", recommendation)
-    html_content = html_content.replace("{{AUDIENCE_DEMO}}", audience_demo)
+    html_content = html_content.replace("{{VIDEO_TITLE}}", audience_alignment[:100])
+    html_content = html_content.replace("{{SENTIMENT_PERCENT}}", str(comment_sentiment))
+    html_content = html_content.replace("{{SUMMARY}}", summary[:150])
 
     temp_html = frames_dir / "reel.html"
     temp_html.write_text(html_content, encoding="utf-8")
 
-    frame_data = []
+    all_frame_paths = []
+    frame_idx = 0
 
-    section_timings = {
-        "sec-header": 0.0,
-        "sec-card": 0.3,
-        "sec-score": 0.8,
-        "sec-flags": 1.5,
-        "sec-sentiment": 2.5,
-        "sec-cta": 5.0,
-    }
+    print(f"  Rendering scenes to frames at {fps}fps...")
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page(viewport={"width": 1080, "height": 1920})
         page.goto(f"file:///{temp_html.resolve()}")
         page.wait_for_load_state("networkidle")
-        page.wait_for_timeout(1000)
+        page.wait_for_timeout(500)
 
-        for frame_idx in range(total_frames):
-            t = frame_idx / fps
+        for scene_id, duration in SCENE_DURATIONS.items():
+            num_frames = int(duration * fps)
 
-            for section_id, show_time in section_timings.items():
-                if t >= show_time:
-                    page.evaluate(f"document.getElementById('{section_id}').classList.add('visible');")
-                else:
-                    page.evaluate(f"document.getElementById('{section_id}').classList.remove('visible');")
+            page.evaluate(f"showScene('{scene_id}');")
+            page.wait_for_timeout(100)
 
-            page.wait_for_timeout(30)
+            for i in range(num_frames):
+                page.wait_for_timeout(int(1000 / fps))
 
-            frame_path = frames_dir / f"frame_{frame_idx:04d}.png"
-            page.screenshot(path=str(frame_path), full_page=False)
-            frame_data.append({
-                "path": str(frame_path),
-                "duration": 1.0 / fps
-            })
+                frame_path = frames_dir / f"frame_{frame_idx:04d}.png"
+                page.screenshot(path=str(frame_path), full_page=False)
+                all_frame_paths.append(str(frame_path))
+                frame_idx += 1
 
         page.close()
         browser.close()
 
-    print(f"  Rendered {len(frame_data)} frames")
+    print(f"  Rendered {len(all_frame_paths)} frames across {len(SCENE_DURATIONS)} scenes")
 
     sfx_dir = output_dir / "sfx"
     sfx_dir.mkdir(parents=True, exist_ok=True)
     click_path = str(sfx_dir / "click.wav")
-    create_sfx_wav(click_path)
+    transition_path = str(sfx_dir / "transition.wav")
+    create_sfx_wav(click_path, frequency=800, duration_ms=40)
+    create_transition_sfx(transition_path)
 
     print("  Compositing video with moviepy...")
 
     video_clips = []
-    for fd in frame_data:
-        img_clip = ImageClip(fd["path"]).with_duration(fd["duration"])
+    for frame_path in all_frame_paths:
+        img_clip = ImageClip(frame_path).with_duration(1.0 / fps)
         video_clips.append(img_clip)
 
     final_video = concatenate_videoclips(video_clips, method="compose")
@@ -198,8 +151,8 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
 
     print(f"  Reel saved: {reel_path}")
 
-    for fd in frame_data:
-        if os.path.exists(fd["path"]):
-            os.remove(fd["path"])
+    for fp in all_frame_paths:
+        if os.path.exists(fp):
+            os.remove(fp)
 
-    return {"reel": reel_path, "sfx_click": click_path}
+    return {"reel": reel_path, "sfx_click": click_path, "sfx_transition": transition_path}

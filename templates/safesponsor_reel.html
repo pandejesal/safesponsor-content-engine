@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1080, initial-scale=1.0">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
@@ -19,319 +15,299 @@
             color: #0f172a;
         }
         
-        .card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            pointer-events: none;
         }
         
-        .card-inner {
+        .scene.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: all;
+        }
+        
+        .scene.exit {
+            opacity: 0;
+            transform: scale(1.05);
+        }
+        
+        /* Scene 1: Hook */
+        #scene-1 {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        .shield-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #22d3ee, #06b6d4);
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+            box-shadow: 0 0 60px rgba(34, 211, 238, 0.4);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 60px rgba(34, 211, 238, 0.4); }
+            50% { box-shadow: 0 0 80px rgba(34, 211, 238, 0.6); }
+        }
+        
+        .hook-title {
+            font-size: 72px;
+            font-weight: 900;
+            color: #ffffff;
+            text-align: center;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+        
+        .hook-subtitle {
+            font-size: 28px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-align: center;
+            max-width: 800px;
+        }
+        
+        /* Scene 2: Score */
+        #scene-2 {
             background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
         }
         
-        .score-box {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 20px 28px;
+        .score-container {
             text-align: center;
         }
         
-        .score-value {
-            font-size: 64px;
+        .score-label {
+            font-size: 24px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .score-number {
+            font-size: 180px;
             font-weight: 900;
             color: #16a34a;
             line-height: 1;
-            letter-spacing: -2px;
+            letter-spacing: -8px;
         }
         
-        .score-label {
-            font-size: 11px;
+        .score-suffix {
+            font-size: 60px;
+            color: #94a3b8;
+            font-weight: 700;
+        }
+        
+        .score-bar {
+            width: 600px;
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            margin-top: 40px;
+            overflow: hidden;
+        }
+        
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #16a34a, #22c55e);
+            border-radius: 6px;
+            width: 0%;
+            transition: width 1.5s ease-out;
+        }
+        
+        /* Scene 3: Stats */
+        #scene-3 {
+            background: #ffffff;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 24px;
+            width: 900px;
+        }
+        
+        .stat-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 72px;
+            font-weight: 900;
+            color: #16a34a;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 18px;
             font-weight: 700;
             color: #64748b;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-top: 8px;
+            margin-top: 16px;
         }
         
-        .risk-badge {
+        /* Scene 4: CTA */
+        #scene-4 {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        .cta-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .risk-low {
-            background: rgba(22, 163, 74, 0.1);
-            color: #16a34a;
+            gap: 12px;
+            padding: 16px 32px;
+            background: rgba(22, 163, 74, 0.15);
             border: 1px solid rgba(22, 163, 74, 0.3);
+            border-radius: 12px;
+            margin-bottom: 40px;
         }
         
-        .risk-medium {
-            background: rgba(245, 158, 11, 0.1);
-            color: #d97706;
-            border: 1px solid rgba(245, 158, 11, 0.3);
+        .cta-badge-text {
+            font-size: 20px;
+            font-weight: 800;
+            color: #22c55e;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
         
-        .risk-high {
-            background: rgba(220, 38, 38, 0.1);
-            color: #dc2626;
-            border: 1px solid rgba(220, 38, 38, 0.3);
+        .cta-title {
+            font-size: 56px;
+            font-weight: 900;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 24px;
         }
         
-        .recommend-badge {
+        .cta-button {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-size: 13px;
+            gap: 16px;
+            padding: 24px 48px;
+            background: linear-gradient(135deg, #ea580c, #f97316);
+            border-radius: 16px;
+            box-shadow: 0 8px 40px rgba(234, 88, 12, 0.4);
+            margin-top: 40px;
+        }
+        
+        .cta-button-text {
+            font-size: 24px;
             font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background: rgba(22, 163, 74, 0.1);
-            color: #16a34a;
-            border: 1px solid rgba(22, 163, 74, 0.3);
+            color: white;
         }
         
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .section-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .section-title {
-            font-size: 16px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .metric-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        
-        .metric-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 16px;
-        }
-        
-        .metric-label {
-            font-size: 10px;
-            font-weight: 700;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-        }
-        
-        .metric-value {
-            font-size: 14px;
-            font-weight: 600;
-            color: #334155;
-            line-height: 1.4;
-        }
-        
-        .metric-value.green {
-            color: #16a34a;
-        }
-        
-        .sentiment-bar {
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .sentiment-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #16a34a, #22c55e);
-            border-radius: 4px;
-            width: {{SENTIMENT_PERCENT}}%;
-        }
-        
-        .anim {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-        }
-        
-        .anim.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .cta-url {
+            font-size: 20px;
+            color: #94a3b8;
+            margin-top: 32px;
         }
     </style>
 </head>
 <body>
-    <div style="display:flex; flex-direction:column; height:100%; padding:40px 48px;">
-        <!-- Header -->
-        <header id="sec-header" class="anim" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:36px;">
-            <div style="display:flex; align-items:center; gap:14px;">
-                <div style="width:44px; height:44px; background:linear-gradient(135deg, #22d3ee, #06b6d4); border-radius:12px; display:flex; align-items:center; justify-content:center;">
-                    <svg style="width:24px; height:24px; color:white;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
-                        <path d="m9 12 2 2 4-4"/>
-                    </svg>
-                </div>
-                <div>
-                    <span style="font-size:22px; font-weight:800; color:#0f172a; letter-spacing:-0.5px;">SafeSponsor <span style="color:#ea580c;">AI</span></span>
-                    <span style="display:block; font-size:10px; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:2px; margin-top:2px;">Brand Safety Engine</span>
-                </div>
-            </div>
-            <div style="display:flex; align-items:center; gap:16px;">
-                <span style="font-size:12px; font-weight:700; color:#2563eb; padding:8px 16px; background:rgba(37,99,235,0.1); border:1px solid rgba(37,99,235,0.3); border-radius:8px;">LIVE AUDIT</span>
-            </div>
-        </header>
-        
-        <!-- Score Section -->
-        <div id="sec-card" class="anim card" style="padding:32px; margin-bottom:20px;">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:28px;">
-                <div>
-                    <span style="font-size:11px; font-weight:700; color:#2563eb; text-transform:uppercase; letter-spacing:1.5px; display:block; margin-bottom:8px; padding:6px 12px; background:rgba(37,99,235,0.1); border-radius:6px; display:inline-block;">TARGET: {{VIDEO_TITLE}}</span>
-                    <h2 style="font-size:32px; font-weight:900; color:#0f172a; letter-spacing:-1px; margin-top:12px;">Executive Risk Dossier</h2>
-                </div>
-                <div style="display:flex; gap:16px;">
-                    <div id="sec-score" class="anim score-box">
-                        <div class="score-label">Safety Score</div>
-                        <div class="score-value">{{RISK_SCORE}}<span style="font-size:28px; color:#94a3b8;">/100</span></div>
-                    </div>
-                    <div class="score-box">
-                        <div class="score-label">Risk Level</div>
-                        <div style="font-size:28px; font-weight:900; color:#16a34a; margin-top:4px;">{{RISK_STATUS}}</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="margin-bottom:24px;">
-                <span class="recommend-badge">
-                    <svg style="width:16px; height:16px;" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    {{RECOMMENDATION}}
-                </span>
-            </div>
-            
-            <p style="font-size:15px; color:#475569; line-height:1.7;">{{SUMMARY}}</p>
+    <!-- Scene 1: Hook -->
+    <div id="scene-1" class="scene active">
+        <div class="shield-icon">
+            <svg width="64" height="64" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                <path d="m9 12 2 2 4-4"/>
+            </svg>
         </div>
-        
-        <!-- Audience Quality -->
-        <div id="sec-flags" class="anim card" style="padding:28px; margin-bottom:20px;">
-            <div class="section-header">
-                <div class="section-icon" style="background:rgba(37,99,235,0.1);">
-                    <svg style="width:16px; height:16px; color:#2563eb;" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-                        <circle cx="9" cy="7" r="4"/>
-                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-                        <path d="M16 3.128a4 4 0 0 1 0 7.744"/>
-                    </svg>
-                </div>
-                <span class="section-title" style="color:#0f172a;">Audience Quality & YouTube Comments Sentiment</span>
-            </div>
-            
-            <div class="metric-row">
-                <div class="metric-card">
-                    <div class="metric-label">Authenticity Rating</div>
-                    <div class="metric-value green">Pristine ({{SENTIMENT_PERCENT}}% authentic engagement)</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">Demographics</div>
-                    <div class="metric-value">{{AUDIENCE_DEMO}}</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">Engagement Quality</div>
-                    <div class="metric-value">High educational engagement, family co-viewing</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">Community Sentiment</div>
-                    <div class="metric-value">Universally beloved creator</div>
-                </div>
-            </div>
-            
-            <div class="card-inner" style="padding:20px;">
-                <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-                    <svg style="width:16px; height:16px; color:#ea580c;" fill="currentColor" viewBox="0 0 24 24">
-                        <rect width="18" height="12" x="2" y="6" rx="2"/>
-                        <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/>
-                    </svg>
-                    <span style="font-size:12px; font-weight:800; color:#ea580c; text-transform:uppercase; letter-spacing:1px;">YouTube Comments Sentiment & Toxicity Breakdown (50 Sampled)</span>
-                </div>
-                <p style="font-size:14px; color:#475569;">{{SENTIMENT_PERCENT}}% positive sentiment celebrating innovation, learning, and community engagement.</p>
-            </div>
-        </div>
-        
-        <!-- Transcript Analysis -->
-        <div id="sec-sentiment" class="anim card" style="padding:28px; margin-bottom:20px;">
-            <div class="section-header">
-                <div class="section-icon" style="background:rgba(37,99,235,0.1);">
-                    <svg style="width:16px; height:16px; color:#2563eb;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/>
-                        <path d="M14 2v5a1 1 0 0 0 1 1h5"/>
-                        <path d="M10 9H8"/>
-                        <path d="M16 13H8"/>
-                        <path d="M16 17H8"/>
-                    </svg>
-                </div>
-                <span class="section-title" style="color:#0f172a;">Transcript Safety Analysis</span>
-            </div>
-            
-            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:20px;">
-                <div class="card-inner" style="padding:20px;">
-                    <div class="metric-label">Slurs Detected</div>
-                    <div style="font-size:36px; font-weight:900; color:#16a34a;">{{SLURS_COUNT}}</div>
-                </div>
-                <div class="card-inner" style="padding:20px;">
-                    <div class="metric-label">Policy Flags</div>
-                    <div style="font-size:36px; font-weight:900; color:#16a34a;">{{POLICY_FLAGS}}</div>
-                </div>
-                <div class="card-inner" style="padding:20px;">
-                    <div class="metric-label">Profanity</div>
-                    <div style="font-size:36px; font-weight:900; color:#16a34a;">{{PROFANITY_COUNT}}</div>
-                </div>
-            </div>
-            
-            <div class="card-inner" style="padding:20px;">
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-                    <span style="font-size:12px; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:1px;">Comment Sentiment</span>
-                    <span style="font-size:18px; font-weight:900; color:#16a34a;">{{SENTIMENT_PERCENT}}%</span>
-                </div>
-                <div class="sentiment-bar">
-                    <div class="sentiment-fill"></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- CTA -->
-        <div id="sec-cta" class="anim" style="text-align:center; margin-top:auto; padding-top:20px;">
-            <div style="display:inline-flex; align-items:center; gap:12px; padding:16px 36px; background:linear-gradient(135deg, #ea580c, #f97316); border-radius:12px; box-shadow: 0 4px 20px rgba(234,88,12,0.3);">
-                <svg style="width:20px; height:20px; color:white;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
-                    <path d="m9 12 2 2 4-4"/>
-                </svg>
-                <span style="font-size:16px; font-weight:800; color:white;">Run Free Audit at safe-sponsor-ai.vercel.app</span>
+        <div class="hook-title">Brand Safety<br>Audit Report</div>
+        <div class="hook-subtitle">AI-powered creator sponsorship vetting</div>
+    </div>
+    
+    <!-- Scene 2: Score -->
+    <div id="scene-2" class="scene">
+        <div class="score-container">
+            <div class="score-label">Safety Score</div>
+            <div class="score-number">{{RISK_SCORE}}<span class="score-suffix">/100</span></div>
+            <div class="score-bar">
+                <div class="score-fill" id="score-fill"></div>
             </div>
         </div>
     </div>
+    
+    <!-- Scene 3: Stats -->
+    <div id="scene-3" class="scene">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">{{SLURS_COUNT}}</div>
+                <div class="stat-label">Slurs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{POLICY_FLAGS}}</div>
+                <div class="stat-label">Policy Flags</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{PROFANITY_COUNT}}</div>
+                <div class="stat-label">Profanity</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scene 4: CTA -->
+    <div id="scene-4" class="scene">
+        <div class="cta-badge">
+            <svg width="24" height="24" fill="none" stroke="#22c55e" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span class="cta-badge-text">{{RECOMMENDATION}}</span>
+        </div>
+        <div class="cta-title">Run a Free<br>Creator Audit</div>
+        <div class="cta-button">
+            <svg width="28" height="28" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                <path d="m9 12 2 2 4-4"/>
+            </svg>
+            <span class="cta-button-text">safe-sponsor-ai.vercel.app</span>
+        </div>
+        <div class="cta-url">safe-sponsor-ai.vercel.app</div>
+    </div>
+    
+    <script>
+        const scenes = ['scene-1', 'scene-2', 'scene-3', 'scene-4'];
+        let currentScene = 0;
+        
+        function showScene(index) {
+            scenes.forEach((id, i) => {
+                const el = document.getElementById(id);
+                el.classList.remove('active', 'exit');
+                if (i === index) {
+                    el.classList.add('active');
+                } else if (i < index) {
+                    el.classList.add('exit');
+                }
+            });
+            
+            if (index === 1) {
+                setTimeout(() => {
+                    document.getElementById('score-fill').style.width = '{{RISK_SCORE}}%';
+                }, 300);
+            }
+        }
+        
+        window.showScene = showScene;
+    </script>
 </body>
 </html>
