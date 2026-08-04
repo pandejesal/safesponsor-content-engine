@@ -101,10 +101,11 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
         page.wait_for_load_state("networkidle")
         page.wait_for_timeout(500)
 
+        scene_index = 0
         for scene_id, duration in SCENE_DURATIONS.items():
             num_frames = int(duration * fps)
 
-            page.evaluate(f"showScene('{scene_id}');")
+            page.evaluate(f"showScene({scene_index});")
             page.wait_for_timeout(100)
 
             for i in range(num_frames):
@@ -114,6 +115,7 @@ def generate_safesponsor_reel(reel_script_data, analysis_data):
                 page.screenshot(path=str(frame_path), full_page=False)
                 all_frame_paths.append(str(frame_path))
                 frame_idx += 1
+            scene_index += 1
 
         page.close()
         browser.close()
